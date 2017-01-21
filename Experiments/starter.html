@@ -16,12 +16,10 @@
   </head>
   <script>
     var map;
-    require(["esri/map", "dojo/domReady!"], function(Map) {
-      map = new Map("map", {
-        basemap: "satellite",
-        center: [-122.45, 37.75],
-        zoom: 13
-      });
+    require(["esri/map", "esri/arcgis/utils", "dojo/domReady!"], function(Map, arcgisUtils) {
+      arcgisUtils.createMap("54638ee02799444795c80c73bd455c2f", "map").then(function (response) {
+        map = response.map;
+      })
     });
 </script>
 <body class="claro">

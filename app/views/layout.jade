@@ -2,6 +2,17 @@ doctype html
 html
   head
     title= title
+    meta(name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet' href='https://js.arcgis.com/3.19/esri/css/esri.css')
+    script(src='https://js.arcgis.com/3.19/')
   body
     block content
+    
+    script.
+      var map;
+      require(["esri/map", "esri/arcgis/utils", "dojo/domReady!"], function(Map, arcgisUtils) {
+        arcgisUtils.createMap("54638ee02799444795c80c73bd455c2f", "map").then(function (response) {
+          map = response.map;
+        })
+      });
