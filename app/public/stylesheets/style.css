@@ -109,29 +109,17 @@ html, body, #app, #map {
 } .flex-row:last-child button:last-child {
   background-color: rgb(255, 124, 245);
 }
+button:hover, select:hover {
+ text-decoration: underline;
+}
+
 
 #undo {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  top: 70px;
-  left: 75px;
-  padding: 3px;
-  background-color: white;
-  border-radius: 1px;
-  border: 1px solid black;
+  display: none;
 }
 
 #clearquery {
-  display: block;
-  position: absolute;
-  z-index: 3;
-  top: 70px;
-  left: 300px;
-  padding: 3px;
-  background-color: white;
-  border-radius: 1px;
-  border: 1px solid black;
+  display: none;
 }
 
 #sidebar {
@@ -233,6 +221,17 @@ html, body {
 }
 .esriPopup {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.4);
+}
+
+#map_zoom_slider {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  top: auto;
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 6px 48px 0 rgba(0,0,0,0.4);
+} .esriSimpleSliderIncrementButton {
+  border: none;
 }
 
 

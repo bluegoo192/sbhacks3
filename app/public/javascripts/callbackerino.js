@@ -288,11 +288,9 @@ require([
   function showQueries() {
     if (queriesShown) {
       domStyle.set(dom.byId('queryWindow'), "display", "none");
-      dom.byId("query").style.backgroundColor = 'white';
       queriesShown = false;
     } else {
       domStyle.set(dom.byId('queryWindow'), "display", "block");
-      dom.byId("query").style.backgroundColor = 'red';
       queriesShown = true;
     }
   }
