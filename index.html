@@ -4,60 +4,213 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
     <title>CSVLayer sample</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.19/dijit/themes/nihilo/nihilo.css">
     <link rel="stylesheet" href="https://js.arcgis.com/3.19/esri/css/esri.css">
     <style>
-      html, body, #map {
+      html, body, #mainWindow {
+        font-family: sans-serif;
         height: 100%;
         width: 100%;
+      }
+      html, body {
         margin: 0;
         padding: 0;
       }
-      body {
-        background-color: #FFF; 
-        overflow: hidden;
-        font-family: "Trebuchet MS";
+      #header {
+        height: 80px;
+        overflow: auto;
+        padding: 0.5em;
       }
+      /* Change color of icons to match bar chart and selection symbol */
+      .esriPopup.dark div.titleButton,
+      .esriPopup.dark div.titlePane .title,
+      .esriPopup.dark div.actionsPane .action {
+        color: #c0c0c0;
+      }
+      /* Additional customizations */
+      .esriPopup.dark .esriPopupWrapper {
+        border: 10px solid red;
+      }
+      .esriPopup .contentPane {
+        text-align: left;
+        border-radius: 0px;
+      }
+      .esriPopup .titlePane {
+        background-color: red;
+        color: white;
+        border-radius: 0px;
+      }
+      .esriPopup .actionsPane {
+        border-radius: 0px;
+      }
+
     </style>
     <script src="https://js.arcgis.com/3.19/"></script>
     <script>
-      var map, csv;
+    var map, toolbar, symbol, geomTask, previousGraphic;
+
+      // require([
+      //   "esri/map",
+      //   "esri/toolbars/draw",
+      //   "esri/graphic",
+      //   "dojo/parser", "dijit/registry",
+      //   "esri/dijit/Popup", "esri/dijit/PopupTemplate",
+      //   "esri/layers/CSVLayer", "esri/layers/FeatureLayer",
+      //   "esri/InfoTemplate", "esri/symbols/SimpleFillSymbol",
+      //   "esri/symbols/SimpleMarkerSymbol", "esri/renderers/ClassBreaksRenderer",
+      //   "esri/Color", "esri/arcgis/utils",
+      //   "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+      //   "dijit/form/Button", "dijit/WidgetSet", "dojo/dom-style", "dojo/domReady!"
+      // ], function(
+      //   Map, Draw, Graphic,
+      //   parser, registry,
+      //   Popup, PopupTemplate,
+      //   CSVLayer, FeatureLayer,
+      //   InfoTemplate, SimpleFillSymbol,
+      //   SimpleMarkerSymbol,
+      //   ClassBreaksRenderer,
+      //   Color, arcgisUtils, domStyle
+      // ) {
 
       require([
         "esri/map",
-        "esri/layers/CSVLayer",
-        "esri/Color",
+        "esri/toolbars/draw",
+        "esri/graphic",
+        "esri/arcgis/utils",
+
         "esri/symbols/SimpleMarkerSymbol",
-        "esri/renderers/SimpleRenderer",
-        "esri/InfoTemplate",
-        "esri/urlUtils",
-        "dojo/domReady!"
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+
+        "dojo/dom",
+        "dojo/parser", "dijit/registry",
+
+        "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+        "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
       ], function(
-        Map, CSVLayer, Color, SimpleMarkerSymbol, SimpleRenderer, InfoTemplate, urlUtils
+        Map, Draw, Graphic, arcgisUtils,
+        SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
+        dom, parser, registry
       ) {
-        urlUtils.addProxyRule({
-          proxyUrl: "/proxy/",
-          urlPrefix: "earthquake.usgs.gov"
+        parser.parse();
+
+        registry.byId("undo").on("click", function() {
+          if(previousGraphic != null) {
+            map.graphics.remove(previousGraphic);
+            toolbar.deactivate();
+            map.enableMapNavigation();
+            }
+          });
+
+        arcgisUtils.createMap("6705a235918f4c308722daa1428d7f87", "map").then(function (response) {
+          map = response.map;
+          createToolbar(map);
         });
-        map = new Map("map", {
-          basemap: "gray",
-          center: [ -60, -10 ],
-          zoom: 4
+        // loop through all dijits, connect onClick event
+        // listeners for buttons to activate drawing tools
+        var isActive = false;
+        registry.byId("circledraw").on("click", function() {
+          activateTool();
         });
-        csv = new CSVLayer("testdata.csv", {
-          copyright: "NGNL"
-        });
-        var orangeRed = new Color([238, 69, 0, 1]); // hex is #ff4500
-        var marker = new SimpleMarkerSymbol("solid", 15, null, orangeRed);
-        var renderer = new SimpleRenderer(marker);
-        csv.setRenderer(renderer);
-        var template = new InfoTemplate("Name: ${name}", "Price: ${price}");
-        csv.setInfoTemplate(template);
-        map.addLayer(csv);
+
+        function activateTool() {
+          if (isActive) {
+            toolbar.deactivate();
+            map.enableMapNavigation();
+            dom.byId("circledraw").style.backgroundColor = 'white';
+            dom.byId("undo").disabled = 'False';
+          } else {
+            var tool = "Freehand Polygon".toUpperCase().replace(/ /g, "_");
+            toolbar.activate(Draw[tool]);
+            map.disableMapNavigation();
+            dom.byId("circledraw").style.backgroundColor = 'red';
+            dom.byId("undo").disabled = 'True';
+          }
+          isActive = !isActive;
+        }
+
+        function createToolbar(themap) {
+          toolbar = new Draw(map);
+          toolbar.on("draw-end", addToMap);
+        }
+        var defaultSymbol = new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([0,0,255]));
+        var highlightSymbol = new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([255,0,0]));
+
+        function addToMap(evt) {
+          var symbol = new SimpleFillSymbol();
+          toolbar.deactivate();
+          map.enableMapNavigation();
+          dom.byId("circledraw").style.backgroundColor = 'white';
+          isActive = false;
+          var graphic = new Graphic(evt.geometry, symbol);
+          if (previousGraphic != null) {
+            map.graphics.remove(previousGraphic);
+          }
+          previousGraphic = graphic;
+          map.graphics.add(graphic);
+          var results = [];
+          dojo.forEach(map.graphics.graphics,function(g){
+            if (evt.geometry.contains(g.geometry)) {
+              g.setSymbol(highlightSymbol);
+              results.push(g.getContent());
+            }
+            //else if point was previously highlighted, reset its symbology
+            else if (g.symbol == highlightSymbol) {
+              g.setSymbol(defaultSymbol);
+            }
+          });
+          console.log(results);
+        }
+
+//         csv = new CSVLayer("test.csv", {
+//           copyright: "NGNL"
+//         });
+//         var symbol = new SimpleMarkerSymbol();
+//         symbol.setColor(new Color([150, 150, 150, 1]));
+//         symbol.setSize(15);
+//
+//         var renderer = new ClassBreaksRenderer(symbol, "price");
+//
+//         var numRanges = 510;
+//         var max = 3000;
+//         var min = 0;
+//         var breaks = (max - min) / numRanges;
+//
+//         for (var i=0; i<numRanges; i++) {
+//           renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, null, new Color([i, 255 - (i - 255), 0, 0.8])));
+//         }
+//
+//         renderer.addBreak(0, 200, new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, null, new Color([255, 0, 0,0.5])));
+//         renderer.addBreak(200, 600, new SimpleFillSymbol().setColor(new Color([255, 255, 0,0.5])));
+//         renderer.addBreak(600, 1000, new SimpleFillSymbol().setColor(new Color([0,255,0,0.5])));
+//
+//         csv.setRenderer(renderer);
+//         var template = new PopupTemplate({
+//           title: "{name}",
+//           description: "<p>As of 2015, <b>{price}%</b> of the" +
+// " population in this zip code is married.</p>" +
+// "<ul><li>{price} people are married</li>" +
+// "<li>{price} have never married</li>" +
+// "<li>{price} are divorced</li><ul>"
+//         });
+//
+//         csv.setInfoTemplate(template);
+//         map.addLayer(csv);
       });
     </script>
   </head>
 
-  <body>
-    <div id="map"></div>
+  <body class="nihilo">
+
+  <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'">
+    <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+      <span>Draw:<br /></span>
+      <button id="undo" data-dojo-type="dijit/form/Button">Undo</button>
+      <button id="circledraw" data-dojo-type="dijit/form/Button">Circle an Area</button>
+    </div>
+    <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div>
+  </div>
+
   </body>
+
 </html>
