@@ -129,14 +129,27 @@ html, body {
 .esriPopup .contentPane {
   text-align: left;
   color: white;
-  background-color: rgba(20, 20, 20, 0.7);
+  background-color: rgba(40, 40, 40, 0.7);
+}
+.esriPopup .pointer.top {
+  color: transparent;
+}
+.esriPopup .pointer.bottomLeft {
+  color: transparent;
+}
+.esriPopup .pointer, .esriPopup .outerPointer {
+  height: 0px;
+  width: 0px;
 }
 .esriPopup .titlePane {
-  background-color: rgba(20, 20, 20, 0.7);
+  background-color: rgba(40, 40, 40, 0.7);
   color: white;
 }
+.esriViewPopup .hzLine {
+    border: none;
+}
 .esriPopup .actionsPane {
-  background-color: rgba(20, 20, 20, 0.7);
+  background-color: rgba(40, 40, 40, 0.7);
 }
 .esriPopup {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.4);
