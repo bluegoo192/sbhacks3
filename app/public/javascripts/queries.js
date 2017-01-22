@@ -1,3 +1,5 @@
+//WHEN YOU MAKE A NEW QUERY, MAKE SURE ANY ATTRIBUTES IT USES ARE LISTED IN 'OUTFIELDS' IN CALLBACKERINO
+
 //A UserQuery is an object representing what the user wants.  its check() and assess() functions assign value to a house
 //qualifier: object containing a list of boolean functions(qualifiers), and the # of expressions required for a target to pass(required)
 //sortingPriorities: list of functions that take the target as a parameter
