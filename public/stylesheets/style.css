@@ -276,7 +276,6 @@ html, body {
   top: 130px;
   left: 220px;
   background-color: white;
-  display: flex;
   max-width: 30%;
   height: auto;
   border-radius: 1px;
