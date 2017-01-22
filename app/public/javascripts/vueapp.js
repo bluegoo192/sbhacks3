@@ -5,7 +5,6 @@ var app = new Vue({
   },
   computed: {
     activeQuery: function () {
-      console.log(initLayer.setDefinitionExpression);
       switch(this.queryString) {
         case 'price':
           return priceQuery;
