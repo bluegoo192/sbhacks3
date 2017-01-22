@@ -30,7 +30,8 @@ var toggles = [
   "insurance",
   "granitecounters",
   "tilefloor",
-  "doublepane"
+  "doublepane",
+  "hvactype"
 ]
 
 require([
@@ -169,7 +170,11 @@ require([
     for (string of toggles) {
       if (domClass.contains(dom.byId(string), "disabledButton")) {
       } else {
-        expression += string + " = 'True' AND ";
+        if (string != "hvactype") {
+          expression += string + " = 'True' AND ";
+        } else {
+          expression += string + " = 'Electric' AND ";
+        }
       }
     }
     if (dom.byId("priceMax").value == "" && dom.byId("occupantsMin").value == "" && dom.byId("bedroomsMin").value == "") {
@@ -259,6 +264,7 @@ require([
       var granitecounters = (data.granitecounters === "True") ? "Yes" : "No";
       var tilefloor = (data.tilefloor === "True") ? "Yes" : "No";
       var doublepane = (data.doublepane === "True") ? "Yes" : "No";
+      var hvactype = (data.hvac == "Electric") ? "Yes" : "No";
       var url;
       switch(data.realtor) {
         case "Casa Abrego":
@@ -348,7 +354,7 @@ require([
         "<li>Internet: " + internet + "<br/>" +
         "<li>Laundry: " + laundry + "</ul>" +
         "Internet Quality: " + data.internetquality + "/10<br/>" +
-        "HVAC Type: " + data.hvactype + "<br/>" +
+        "HVAC is Electric: " + hvactype + "<br/>" +
         "Building Age: " + data.age + "<br/>" +
         "Environment: " + data.environment + "<br/>" +
         "Number of Other Applicants: " + data.numberapplied + "<br/>" +
