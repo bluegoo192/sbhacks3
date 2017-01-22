@@ -22,9 +22,6 @@ html, body, #app, #map {
 }
 
 #splash {
-  display: block;
-  position: absolute;
-  z-index:100;
   width: 100%;
   height: 100%;
   border: none;
@@ -47,14 +44,20 @@ html, body, #app, #map {
 #splashTitle {
   font-size: 60px;
   font-weight: bolder;
+  z-index: 100;
   color: white;
+  background-color: rgba(60, 60, 60, 0.8);
+  font-size: 40px;
   text-align: center;
 }
 
-#splashBody {
-  font-size: 20px;
-  color: lightgrey;
-  text-align: center;
+#screenblur {
+  filter: blur(5);
+  width: 100%;
+  height: 100%;
+  border: none;
+  z-index: 99;
+  position: fixed;
 }
 
 #inspector {
