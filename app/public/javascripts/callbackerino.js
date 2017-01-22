@@ -86,6 +86,12 @@ require([
   censusBlockPointsLayer.setSelectionSymbol(symbol);
 
   //To put more stuff into the sidebar
+
+
+
+
+
+
   censusBlockPointsLayer.on("selection-complete", function() {
     dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
       getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Price: $" +
@@ -95,6 +101,13 @@ require([
       getHighestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Deposit: $" +
       getLowestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
+
+
+
+
+
+
+
 
   initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
