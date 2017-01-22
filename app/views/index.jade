@@ -2,18 +2,23 @@ extends layout
 
 block content
   .floating#inspector
-    #search
+    div#search.material
+    #palette
+      .flex-row
+        select.material#sort(v-model="queryString")
+          option(value="price") Price
+          option(value="deposit") Deposit
+          option(value="bedrooms") Bedrooms
+          option(value="bathrooms") Bathrooms
+          option(value="maxoccupants") Occupancy
+          option(value="rating") Rating
+        button#circledraw.material Area
+      .flex-row
+        button#query.material Criteria
+        button.material More
+    #sidebar.material
   button#undo Undo
-  button.floating#circledraw Circle an Area
-  select.floating#sort(v-model="queryString")
-    option(value="price") Price
-    option(value="deposit") Deposit
-    option(value="bedrooms") Bedrooms
-    option(value="bathrooms") Bathrooms
-    option(value="maxoccupants") Max Occupants
-    option(value="rating") Rating
-  button#query Query Test
+  
   button#clearquery Clear Query
-  #sidebar
-    h1 Aggregate Statistics
+  
   #map(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'")
