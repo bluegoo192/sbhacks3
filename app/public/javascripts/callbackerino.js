@@ -90,14 +90,6 @@ require([
 
   var q = new Query();
 
-  on(dom.byId("undo"), "click", function() {
-    if(previousGraphic != null) {
-      map.graphics.remove(previousGraphic);
-      toolbar.deactivate();
-      map.enableMapNavigation();
-      }
-    });
-
   on(dom.byId("sort"), "change", function() {
     initLayer.setDefinitionExpression("");
   });
@@ -161,10 +153,6 @@ require([
 
   on(dom.byId("query"), "click", function() {
     showQueries();
-  });
-
-  on(dom.byId("clearquery"), "click", function() {
-    initLayer.setDefinitionExpression("");
   });
 
   for (string of toggles) {
