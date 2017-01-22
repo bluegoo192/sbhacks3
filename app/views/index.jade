@@ -3,7 +3,7 @@ extends layout
 block content
   button#undo Undo
   button.floating#circledraw Circle an Area
-  select.floating#sort
+  select.floating#sort(v-model="queryString")
     option(value="price") Price
     option(value="deposit") Deposit
     option(value="bedrooms") Bedrooms
