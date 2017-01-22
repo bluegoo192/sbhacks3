@@ -91,12 +91,6 @@ require([
   censusBlockPointsLayer.setSelectionSymbol(symbol);
 
   //To put more stuff into the sidebar
-
-
-
-
-
-
   censusBlockPointsLayer.on("selection-complete", function() {
     dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
       getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Price: $" +
@@ -106,13 +100,6 @@ require([
       getHighestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Deposit: $" +
       getLowestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
-
-
-
-
-
-
-
 
   initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
@@ -126,6 +113,7 @@ require([
       description: "<img class='popupImage' src='{price:randomImage}'><br/>" +
         "Address: {street}, {city}, {state} <br/>" +
         "Price: ${price} <br/>" +
+        "Tenant Rating: {userrating}/10<br/>" +
         "<button class='showmore' onclick='({FID:showMore})()'>Show More</button>"
     })
   });
@@ -197,14 +185,52 @@ require([
   showMore = function(value, key, d) {
     data = d;
     var returnFunction = function() {
-      var smoking = data.smoking ? "Yes" : "No";
+      var smoking = data.smoking ? "Allowed" : "Not Allowed";
+      var pets = data.pets ? "Allowed" : "Not Allowed";
+      var water = data.water ? "Yes" : "No";
+      var garbage = data.garbage ? "Yes" : "No";
+      var gas = data.gas ? "Yes" : "No";
+      var electricity = data.electricity ? "Yes" : "No";
+      var internet = data.internet ? "Yes" : "No";
+      var laundry = data.laundry ? "Yes" : "No";
+      var subleases = data.subleases ? "Allowed" : "Not Allowed";
+      var balcony = data.balcony ? "Yes" : "No";
+      var furnished = data.furnished ? "Yes" : "No";
+      var insurance = data.insurance ? "Yes" : "No";
+      var granitecounters = data.granitecounters ? "Yes" : "No";
+      var tilefloor = data.tilefloor ? "Yes" : "No";
+      var doublepane = data.doublepane ? "Yes" : "No";
       this.document.getElementById("sidebar").innerHTML = "<p>" +
         "Realtor: " + data.realtor + "<br/>" +
         "Deposit: $" + data.deposit + "<br/>" +
         "Bedrooms: " + data.bedrooms + "<br/>" +
         "Bathrooms: " + data.bathrooms + "<br/>" +
         "Maximum Occupants: " + data.occupants + "<br/>" +
-        "Smoking: " + smoking + "<br/>"
+        "View Rating: " + data.viewrating + "/10<br/>" +
+        "Smoking: " + smoking + "<br/>" +
+        "Pets: " + pets + "<br/>" +
+        "Utility Coverage: " + data.utilitycoverage + "<ul>" +
+        "<li>Water: " + water + "<br/>" +
+        "<li>Garbage: " + garbage + "<br/>" +
+        "<li>Gas: " + gas + "<br/>" +
+        "<li>Electricity: " + electricity + "<br/>" +
+        "<li>Internet: " + internet + "<br/>" +
+        "<li>Laundry: " + laundry + "</ul>" +
+        "Internet Quality: " + data.internetquality + "/10<br/>" +
+        "HVAC Type: " + data.hvactype + "<br/>" +
+        "Building Age: " + data.age + "<br/>" +
+        "Environment: " + data.environment + "<br/>" +
+        "Number of Other Applicants: " + data.numberapplied + "<br/>" +
+        "Subleases: " + subleases + "<br/>" +
+        "Floor: " + data.floor + "<br/>" +
+        "Balcony: " + balcony + "<br/>" +
+        "Rental Type: " + data.rentaltype + "<br/>" +
+        "Yard: " + data.yard + "<br/>" +
+        "Furnished: " + furnished + "<br/>" +
+        "Insurance: " + insurance + "<br/>" +
+        "Granite Counters: " + granitecounters + "<br/>" +
+        "Tile Floors: " + tilefloor + "<br/>" +
+        "Double Pane: " + doublepane + "<br/>"
     };
     return returnFunction;
   }
