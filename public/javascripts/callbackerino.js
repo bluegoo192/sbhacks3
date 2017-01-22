@@ -172,7 +172,9 @@ require([
         expression += string + " = 'True' AND ";
       }
     }
-    console.log(dom.byId("priceMax").value);
+    if (dom.byId("priceMax").value == "" && dom.byId("occupantsMin").value == "" && dom.byId("bedroomsMin").value == "") {
+      expression += "price > -1";
+    }
     if (dom.byId("priceMax").value != "") {
       expression += "price < " + dom.byId("priceMax").value;
       if (dom.byId("occupantsMin").value != "" || dom.byId("bedroomsMin").value != "") {
