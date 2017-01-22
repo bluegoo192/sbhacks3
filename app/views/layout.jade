@@ -3,8 +3,8 @@ html
   head
     title= title
     meta(name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no')
-    link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet' href='https://js.arcgis.com/3.19/esri/css/esri.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='https://js.arcgis.com/3.19/')
   body
     block content
@@ -15,6 +15,8 @@ html
 
       require([
         "esri/map",
+        "esri/dijit/Popup", 
+        "esri/dijit/PopupTemplate",
         "esri/dijit/Search",
         "esri/geometry/Extent",
         "esri/toolbars/draw",
@@ -32,22 +34,31 @@ html
         "esri/geometry/screenUtils",
 
         "esri/Color", "dojo/dom", "dojo/on",
+        "dojo/dom-class",
         "dojo/dom-construct", "dojo/query",
         "dojo/parser", "dijit/registry",
 
         "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
       ], function(
-        Map, Search, Extent, Draw, Graphic, arcgisUtils,
+        Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
         ClassBreaksRenderer,
         FeatureLayer, InfoTemplate,
         Query, QueryTask,
         SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
         screenUtils, 
-        Color, dom, on, domConstruct, query, parser, registry
+        Color, dom, on, domClass, domConstruct, query, parser, registry
       ) {
         parser.parse();
         
+        var fill = new SimpleFillSymbol("solid", null, new Color("#A4CE67"));
+        var popup = new Popup({
+            fillSymbol: fill,
+            titleInBody: false
+        }, domConstruct.create("div"));
+        //Add the dark theme which is customized further in the <style> tag at the top of this page
+        domClass.add(popup.domNode, "dark");
+
         symbol = new SimpleMarkerSymbol();
         symbol.setColor(new Color([150, 150, 150, 1]));
         symbol.setSize(15);
@@ -91,8 +102,11 @@ html
         
         var initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/berkeley/FeatureServer/0", {
           mode: FeatureLayer.MODE_ONDEMAND,
-          outFields: ["price", "name", "street", "city", "state"],
-          infoTemplate: new InfoTemplate("Apartment Details", "Name: ${name} <br/> Price: $${price} <br/> Address: ${street}, ${city}, ${state}")
+          outFields: ["price", "name", "street", "city", "state", "FID"],
+          infoTemplate: new PopupTemplate({
+            title: "Apartment Details",
+            description: "Name: {name} <br/> Price: ${price} <br/> Address: {street}, {city}, {state} <br/> FID: {FID}"
+          })
         });
         
         initLayer.setRenderer(renderer);
@@ -118,7 +132,7 @@ html
         });
         
         on(dom.byId("clearquery"), "click", function() {
-          testQuery();
+          initLayer.setDefinitionExpression("");
         });
         //Create extent to limit search
         var extent = new Extent({
@@ -154,7 +168,7 @@ html
         }
         
         function testQuery() {
-          initLayer.setDefinitionExpression("price < 1500");
+          initLayer.setDefinitionExpression("price < 1500 AND FID > 1000");
         }
         
         function createToolbar(themap) {
