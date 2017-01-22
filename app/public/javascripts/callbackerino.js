@@ -1,5 +1,18 @@
-var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer;
+var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer, randomImage, showMore, data;
 var isActive = false;
+
+var images = [
+  "https://media-cdn.tripadvisor.com/media/photo-o/02/77/31/02/outside-view.jpg",
+  "http://www.westmont.edu/_offices/residence_life/uploads/2006/10/ocean%20view%20outside%20(med).jpg",
+  "http://cdn.redalertpolitics.com/files/2015/10/869395563_22f8d741b6_o.jpg",
+  "https://secure.static.tumblr.com/8c2d0620be7545c947dc7fcc067ff93a/jbb81gu/rexnqf12g/tumblr_static_tumblr_static_b64lwqy7pu88scs8wgo4kos_640.jpg",
+  "http://www.hotel-r.net/im/hotel/cy/santa-barbara-apartment.jpg",
+  "http://www.buenavistasantabarbara.com/sites/default/files/styles/home_banner_image_style/public/banner_image_03_0.jpg?itok=LH4y2KVh",
+  "http://www.hotel-r.net/im/hotel/cy/santa-barbara-apartment-18.jpg",
+  "http://casapequenaapts.com/santabarbara/images/casapeqapts%20004.jpg",
+  "http://allthingssantabarbara.com/wp-content/uploads/2011/02/Paseo-Chapala-Exterior-A.jpg",
+  "http://berkshireterraceapts.com/wp-content/plugins/vslider/timthumb.php?src=%2Fwp-content%2Fuploads%2F2012%2F04%2Fb1.jpg&w=719&h=379&zc=1&q=80"
+]
 
 require([
   "esri/map",
@@ -38,14 +51,6 @@ require([
   Color, dom, on, domClass, domConstruct, query, parser, registry
 ) {
   parser.parse();
-
-  var fill = new SimpleFillSymbol("solid", null, new Color("#A4CE67"));
-  var popup = new Popup({
-      fillSymbol: fill,
-      titleInBody: false
-  }, domConstruct.create("div"));
-  //Add the dark theme which is customized further in the <style> tag at the top of this page
-  domClass.add(popup.domNode, "dark");
 
   symbol = new SimpleMarkerSymbol();
   symbol.setColor(new Color([150, 150, 150, 1]));
@@ -98,16 +103,23 @@ require([
 
   initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
-    outFields: ["price", "name", "street", "city", "state", "FID", "deposit", "bedrooms", "bathrooms", "occupants", "userrating"],
+    outFields: ["price", "name", "street", "city", "state", "FID", "deposit", "bedrooms", "bathrooms",
+      "occupants", "userrating", "realtor", "smoking", "pets", "utilitycoverage", "water", "garbage",
+      "gas", "electricity", "internet", "internetquality", "laundry", "hvactype", "age", "environment",
+      "numberapplied", "subleases", "floor", "balcony", "rentaltype", "yard", "furnished", "insurance",
+      "viewrating", "granitecounters", "tilefloor", "doublepane"],
     infoTemplate: new PopupTemplate({
       title: "Apartment Details",
-      description: "Price: ${price} <br/> Address: {street}, {city}, {state} <br/> Deposit: ${deposit}"
+      description: "<img class='popupImage' src='{price:randomImage}'><br/>" +
+        "Address: {street}, {city}, {state} <br/>" +
+        "Price: ${price} <br/>" +
+        "<button class='showmore' onclick='({FID:showMore})()'>Show More</button>"
     })
   });
 
   initLayer.setRenderer(renderer);
 
-  arcgisUtils.createMap("8c81bb0e582d4948a7a6ac8d1bf3a233", "map").then(function (response) {
+  arcgisUtils.createMap("c0039c4561bc4829983698261edb5622", "map").then(function (response) {
     map = response.map;
     createToolbar(map);
     enableSpotlight();
@@ -161,6 +173,27 @@ require([
       dom.byId("circledraw").style.backgroundColor = 'red';
     }
     isActive = !isActive;
+  }
+
+  randomImage = function(value, key, data) {
+    var price = data.price
+    var rand = Math.floor(((price / 10) + (price / 100) + (price / 1000)) % 10);
+    return images[rand]
+  }
+
+  showMore = function(value, key, d) {
+    data = d;
+    var returnFunction = function() {
+      var smoking = data.smoking ? "Yes" : "No";
+      this.document.getElementById("sidebar").innerHTML = "<p>" +
+        "Realtor: " + data.realtor + "<br/>" +
+        "Deposit: $" + data.deposit + "<br/>" +
+        "Bedrooms: " + data.bedrooms + "<br/>" +
+        "Bathrooms: " + data.bathrooms + "<br/>" +
+        "Maximum Occupants: " + data.occupants + "<br/>" +
+        "Smoking: " + smoking + "<br/>"
+    };
+    return returnFunction;
   }
 
   function testQuery() {

@@ -38,7 +38,7 @@ var lowStandardsQualifier = {
 };
 var pricePriority = [
   function (target) {
-    return (target.attributes.price / 1500);//any large number will do, we just need the normalizedPrice to be less than 10
+    return (target.attributes.price / 1800);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
 var depositPriority = [
