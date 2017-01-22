@@ -1,5 +1,10 @@
 extends layout
 
 block content
+  button#undo Undo
+  button#circledraw Circle an Area
+  button#query Query Test
   #search
-  #map
+  #sidebar
+    h1 Aggregate Statistics
+  #map(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'")

@@ -17,6 +17,62 @@ html, body, #map {
   left: 75px;
 }
 
+#undo {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 70px;
+  left: 75px;
+  padding: 3px;
+  background-color: white;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
+#circledraw {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 70px;
+  left: 125px;
+  padding: 3px;
+  background-color: white;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
+#query {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 70px;
+  left: 220px;
+  padding: 3px;
+  background-color: white;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
+#sidebar {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  width: 15%;
+  height: 80%;
+  background-color: white;
+  border: 1px solid black;
+  top: 20px;
+  right: 30px;
+}
+
+#sidebar h1 {
+  text-align:center
+}
+
+#sidebar p {
+  padding: 5px;
+}
+
 .spotlight {
   z-index: -1;
   position: absolute;

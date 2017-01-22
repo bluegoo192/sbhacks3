@@ -49,31 +49,10 @@
     <script>
     var map, toolbar, symbol, geomTask, previousGraphic;
 
-      // require([
-      //   "esri/map",
-      //   "esri/toolbars/draw",
-      //   "esri/graphic",
-      //   "dojo/parser", "dijit/registry",
-      //   "esri/dijit/Popup", "esri/dijit/PopupTemplate",
-      //   "esri/layers/CSVLayer", "esri/layers/FeatureLayer",
-      //   "esri/InfoTemplate", "esri/symbols/SimpleFillSymbol",
-      //   "esri/symbols/SimpleMarkerSymbol", "esri/renderers/ClassBreaksRenderer",
-      //   "esri/Color", "esri/arcgis/utils",
-      //   "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
-      //   "dijit/form/Button", "dijit/WidgetSet", "dojo/dom-style", "dojo/domReady!"
-      // ], function(
-      //   Map, Draw, Graphic,
-      //   parser, registry,
-      //   Popup, PopupTemplate,
-      //   CSVLayer, FeatureLayer,
-      //   InfoTemplate, SimpleFillSymbol,
-      //   SimpleMarkerSymbol,
-      //   ClassBreaksRenderer,
-      //   Color, arcgisUtils, domStyle
-      // ) {
-
       require([
         "esri/map",
+        "esri/dijit/Search",
+        "esri/geometry/Extent",
         "esri/toolbars/draw",
         "esri/graphic",
         "esri/arcgis/utils",
@@ -84,18 +63,21 @@
         "esri/symbols/SimpleMarkerSymbol",
         "esri/symbols/SimpleLineSymbol",
         "esri/symbols/SimpleFillSymbol",
+        "esri/geometry/screenUtils",
 
         "esri/Color", "dojo/dom",
+        "dojo/dom-construct",
         "dojo/parser", "dijit/registry",
 
         "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
       ], function(
-        Map, Draw, Graphic, arcgisUtils,
+        Map, Search, Extent, Draw, Graphic, arcgisUtils,
         FeatureLayer,
         Query, QueryTask,
         SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
-        Color, dom, parser, registry
+        screenUtils,
+        Color, dom, domConstruct, parser, registry
       ) {
         parser.parse();
 
@@ -121,9 +103,18 @@
         censusBlockPointsLayer.setSelectionSymbol(symbol);
 
         censusBlockPointsLayer.on("selection-complete", function() {
-          console.log(censusBlockPointsLayer.getSelectedFeatures());
+          console.log(getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()));
         });
 
+        function getAveragePrice(features) {
+          var num = 0;
+          var total = 0;
+          for (feature of features) {
+            total += feature.attributes["price"];
+            num ++;
+          }
+          return (total / num).toFixed(2);
+        }
 
         arcgisUtils.createMap("974b1e6a1bb740c490e0cff582713305", "map").then(function (response) {
           map = response.map;
@@ -157,8 +148,6 @@
           toolbar = new Draw(map);
           toolbar.on("draw-end", addToMap);
         }
-        var defaultSymbol = new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([0,0,255]));
-        var highlightSymbol = new esri.symbol.SimpleMarkerSymbol().setColor(new dojo.Color([255,0,0]));
 
         function addToMap(evt) {
           var symbol = new SimpleFillSymbol();
