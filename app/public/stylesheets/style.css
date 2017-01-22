@@ -223,3 +223,90 @@ html, body {
 .esriPopup {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.4);
 }
+
+
+#queryWindow {
+  text-align: center;
+  display: none;
+  position: absolute;
+  z-index: 3;
+  top: 130px;
+  left: 220px;
+  background-color: white;
+  width: 20%;
+  height: auto;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
+.disabledButton{
+  filter: brightness(60%);
+}
+
+.toggleButton {
+  outline: none;
+  color: white;
+  border: none;
+  font-size: 8px;
+  width: 100px;
+  height: 50px;
+}
+
+#smoking{
+  background-color: rgba(255, 208, 0, 1)
+}
+
+#pets{
+  background-color: rgba(0, 242, 44, 1)
+}
+
+#water{
+  background-color: rgba(0, 238, 255, 1)
+}
+
+#garbage{
+  background-color: rgba(145, 145, 145, 1)
+}
+
+#gas{
+  background-color: rgba(198, 84, 255, 1)
+}
+
+#electricity{
+  background-color: rgba(214, 214, 0, 1)
+}
+
+#internet{
+  background-color: rgba(84, 147, 255, 1)
+}
+#laundry{
+  background-color: rgba(255, 208, 0, 1)
+}
+
+#subleases{
+  background-color: rgba(0, 242, 44, 1)
+}
+
+#balcony{
+  background-color: rgba(0, 238, 255, 1)
+}
+
+#furnished{
+  background-color: rgba(145, 145, 145, 1)
+}
+
+#insurance{
+  background-color: rgba(198, 84, 255, 1)
+}
+
+#granitecounters{
+  background-color: rgba(214, 214, 0, 1)
+}
+
+#tilefloor{
+  background-color: rgba(84, 147, 255, 1)
+}
+
+#doublepane{
+  background-color: rgba(255, 208, 0, 1)
+}

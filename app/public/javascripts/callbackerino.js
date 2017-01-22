@@ -1,5 +1,6 @@
 var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer, randomImage, showMore, data;
 var isActive = false;
+var queriesShown = false;
 
 var images = [
   "https://media-cdn.tripadvisor.com/media/photo-o/02/77/31/02/outside-view.jpg",
@@ -12,6 +13,24 @@ var images = [
   "http://casapequenaapts.com/santabarbara/images/casapeqapts%20004.jpg",
   "http://allthingssantabarbara.com/wp-content/uploads/2011/02/Paseo-Chapala-Exterior-A.jpg",
   "http://berkshireterraceapts.com/wp-content/plugins/vslider/timthumb.php?src=%2Fwp-content%2Fuploads%2F2012%2F04%2Fb1.jpg&w=719&h=379&zc=1&q=80"
+]
+
+var toggles = [
+  "smoking",
+  "pets",
+  "water",
+  "garbage",
+  "gas",
+  "electricity",
+  "internet",
+  "laundry",
+  "subleases",
+  "balcony",
+  "furnished",
+  "insurance",
+  "granitecounters",
+  "tilefloor",
+  "doublepane"
 ]
 
 require([
@@ -35,7 +54,7 @@ require([
   "esri/geometry/screenUtils",
 
   "esri/Color", "dojo/dom", "dojo/on",
-  "dojo/dom-class",
+  "dojo/dom-class", "dojo/dom-style",
   "dojo/dom-construct", "dojo/query",
   "dojo/parser", "dijit/registry",
 
@@ -48,7 +67,7 @@ require([
   Query, QueryTask,
   SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
   screenUtils,
-  Color, dom, on, domClass, domConstruct, query, parser, registry
+  Color, dom, on, domClass, domStyle, domConstruct, query, parser, registry
 ) {
   parser.parse();
 
@@ -137,12 +156,29 @@ require([
   });
 
   on(dom.byId("query"), "click", function() {
-    testQuery();
+    showQueries();
   });
 
   on(dom.byId("clearquery"), "click", function() {
     initLayer.setDefinitionExpression("");
   });
+
+  for (string of toggles) {
+    attachListeners(dom.byId(string));
+  }
+
+  on(dom.byId("submitQuery"), "click", function() {
+    var expression = "";
+    for (string of toggles) {
+      if (domClass.contains(dom.byId(string), "disabledButton")) {
+      } else {
+        expression += string + " = 'True' AND ";
+      }
+    }
+    expression += "price > -1";
+    console.log(expression);
+    initLayer.setDefinitionExpression(expression);
+  })
   //Create extent to limit search
   var extent = new Extent({
      "spatialReference": {
@@ -161,6 +197,16 @@ require([
   search.startup();
   search.on("select-result", showLocation);
   search.on("clear-search", removeSpotlight);
+
+  function attachListeners(node){
+    on(node, "click", function() {
+      if (domClass.contains(node, "disabledButton")) {
+        domClass.remove(node, "disabledButton");
+      } else {
+        domClass.add(node, "disabledButton");
+      }
+    });
+  }
 
   function activateTool() {
     if (isActive) {
@@ -185,21 +231,21 @@ require([
   showMore = function(value, key, d) {
     data = d;
     var returnFunction = function() {
-      var smoking = data.smoking ? "Allowed" : "Not Allowed";
-      var pets = data.pets ? "Allowed" : "Not Allowed";
-      var water = data.water ? "Yes" : "No";
-      var garbage = data.garbage ? "Yes" : "No";
-      var gas = data.gas ? "Yes" : "No";
-      var electricity = data.electricity ? "Yes" : "No";
-      var internet = data.internet ? "Yes" : "No";
-      var laundry = data.laundry ? "Yes" : "No";
-      var subleases = data.subleases ? "Allowed" : "Not Allowed";
-      var balcony = data.balcony ? "Yes" : "No";
-      var furnished = data.furnished ? "Yes" : "No";
-      var insurance = data.insurance ? "Yes" : "No";
-      var granitecounters = data.granitecounters ? "Yes" : "No";
-      var tilefloor = data.tilefloor ? "Yes" : "No";
-      var doublepane = data.doublepane ? "Yes" : "No";
+      var smoking = (data.smoking === "True") ? "Allowed" : "Not Allowed";
+      var pets = (data.pets === "True") ? "Allowed" : "Not Allowed";
+      var water = (data.water === "True") ? "Yes" : "No";
+      var garbage = (data.garbage === "True") ? "Yes" : "No";
+      var gas = (data.gas === "True") ? "Yes" : "No";
+      var electricity = (data.electricity === "True") ? "Yes" : "No";
+      var internet = (data.internet === "True") ? "Yes" : "No";
+      var laundry = (data.laundry === "True") ? "Yes" : "No";
+      var subleases = (data.subleases === "True") ? "Allowed" : "Not Allowed";
+      var balcony = (data.balcony === "True") ? "Yes" : "No";
+      var furnished = (data.furnished === "True") ? "Yes" : "No";
+      var insurance = (data.insurance === "True") ? "Yes" : "No";
+      var granitecounters = (data.granitecounters === "True") ? "Yes" : "No";
+      var tilefloor = (data.tilefloor === "True") ? "Yes" : "No";
+      var doublepane = (data.doublepane === "True") ? "Yes" : "No";
       this.document.getElementById("sidebar").innerHTML = "<p>" +
         "Realtor: " + data.realtor + "<br/>" +
         "Deposit: $" + data.deposit + "<br/>" +
@@ -235,8 +281,16 @@ require([
     return returnFunction;
   }
 
-  function testQuery() {
-    initLayer.setDefinitionExpression("price < 1500 AND FID > 1000");
+  function showQueries() {
+    if (queriesShown) {
+      domStyle.set(dom.byId('queryWindow'), "display", "none");
+      dom.byId("query").style.backgroundColor = 'white';
+      queriesShown = false;
+    } else {
+      domStyle.set(dom.byId('queryWindow'), "display", "block");
+      dom.byId("query").style.backgroundColor = 'red';
+      queriesShown = true;
+    }
   }
 
   function createToolbar(themap) {
