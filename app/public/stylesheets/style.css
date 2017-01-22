@@ -34,3 +34,40 @@ html, body, #map {
 a {
   color: #00B7FF;
 }
+
+html, body, #mainWindow {
+  font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+#header {
+  height: 80px;
+  overflow: auto;
+  padding: 0.5em;
+}
+/* Change color of icons to match bar chart and selection symbol */
+.esriPopup.dark div.titleButton,
+.esriPopup.dark div.titlePane .title,
+.esriPopup.dark div.actionsPane .action {
+  color: #c0c0c0;
+}
+/* Additional customizations */
+.esriPopup.dark .esriPopupWrapper {
+  border: 10px solid red;
+}
+.esriPopup .contentPane {
+  text-align: left;
+  border-radius: 0px;
+}
+.esriPopup .titlePane {
+  background-color: red;
+  color: white;
+  border-radius: 0px;
+}
+.esriPopup .actionsPane {
+  border-radius: 0px;
+}
