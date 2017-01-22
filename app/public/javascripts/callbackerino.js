@@ -73,7 +73,7 @@ require([
       }
     });
 
-  censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/berkeley/FeatureServer/0", {
+  censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_SELECTION,
     outFields: ["price", "name"]}
   );
@@ -90,7 +90,7 @@ require([
       getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
 
-  var initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/berkeley/FeatureServer/0", {
+  var initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
     outFields: ["price", "name", "street", "city", "state", "FID"],
     infoTemplate: new PopupTemplate({
@@ -101,7 +101,7 @@ require([
 
   initLayer.setRenderer(renderer);
 
-  arcgisUtils.createMap("83adbbc916564cb998cd99432cf3a5d9", "map").then(function (response) {
+  arcgisUtils.createMap("8c81bb0e582d4948a7a6ac8d1bf3a233", "map").then(function (response) {
     map = response.map;
     createToolbar(map);
     enableSpotlight();
