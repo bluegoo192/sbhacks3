@@ -172,8 +172,16 @@ require([
         expression += string + " = 'True' AND ";
       }
     }
-    expression += "price < " + dom.byId("priceMax").value;
-    console.log(expression);
+    console.log(dom.byId("priceMax").value);
+    if (dom.byId("priceMax").value != "") {
+      expression += "price < " + dom.byId("priceMax").value;
+      if (dom.byId("occupantsMin").value != "") {
+        expression += " AND ";
+      }
+    }
+    if (dom.byId("occupantsMin").value != "") {
+      expression += "occupants > " + dom.byId("occupantsMin").value;
+    }
     initLayer.setDefinitionExpression(expression);
   })
   //Create extent to limit search
