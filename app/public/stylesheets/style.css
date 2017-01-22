@@ -53,6 +53,18 @@ html, body, #map {
   border: 1px solid black;
 }
 
+#clearquery {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 70px;
+  left: 300px;
+  padding: 3px;
+  background-color: white;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
 #sidebar {
   display: block;
   position: absolute;
@@ -105,25 +117,18 @@ html, body {
   overflow: auto;
   padding: 0.5em;
 }
-/* Change color of icons to match bar chart and selection symbol */
-.esriPopup.dark div.titleButton,
-.esriPopup.dark div.titlePane .title,
-.esriPopup.dark div.actionsPane .action {
-  color: #c0c0c0;
-}
-/* Additional customizations */
-.esriPopup.dark .esriPopupWrapper {
-  border: 10px solid red;
-}
 .esriPopup .contentPane {
   text-align: left;
-  border-radius: 0px;
+  color: red;
+  background-color: grey;
 }
 .esriPopup .titlePane {
-  background-color: red;
+  background-color: grey;
   color: white;
-  border-radius: 0px;
 }
 .esriPopup .actionsPane {
-  border-radius: 0px;
+  background-color: grey;
+}
+.esriPopup {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.4);
 }
