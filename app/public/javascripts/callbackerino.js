@@ -98,6 +98,10 @@ require([
       }
     });
 
+  on(dom.byId("sort"), "change", function() {
+    initLayer.setDefinitionExpression("");
+  });
+
   censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_SELECTION,
     outFields: ["price", "deposit"]}

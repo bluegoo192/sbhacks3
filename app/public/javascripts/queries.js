@@ -45,17 +45,17 @@ var pricePriority = [
 ];
 var depositPriority = [
   function (target) {
-    return (target.attributes.deposit / 50);//any large number will do, we just need the normalizedPrice to be less than 10
+    return (target.attributes.deposit / 3330);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
 var bedPriority = [
   function (target) {
-    return (target.attributes.bedrooms * 1.5);//any large number will do, we just need the normalizedPrice to be less than 10
+    return (target.attributes.bedrooms * 1.25);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
 var bathPriority = [
   function (target) {
-    return (target.attributes.bathrooms * 3.3);//any large number will do, we just need the normalizedPrice to be less than 10
+    return (target.attributes.bathrooms * 1.25);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
 var occupancyPriority = [
