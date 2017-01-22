@@ -2,10 +2,17 @@ extends layout
 
 block content
   button#undo Undo
-  button#circledraw Circle an Area
+  button.floating#circledraw Circle an Area
+  select.floating#sort
+    option(value="price") Price
+    option(value="deposit") Deposit
+    option(value="bedrooms") Bedrooms
+    option(value="bathrooms") Bathrooms
+    option(value="maxoccupants") Max Occupants
+    option(value="rating") Rating
   button#query Query Test
   button#clearquery Clear Query
-  #search
+  div.floating#search
   #sidebar
     h1 Aggregate Statistics
   #map(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'")
