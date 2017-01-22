@@ -159,6 +159,10 @@ require([
     attachListeners(dom.byId(string));
   }
 
+  on(dom.byId("splash"), "click", function() {
+    domStyle.set(dom.byId("splash"), "display", "none");
+  })
+
   on(dom.byId("submitQuery"), "click", function() {
     var expression = "";
     for (string of toggles) {
