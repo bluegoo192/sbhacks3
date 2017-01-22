@@ -175,12 +175,18 @@ require([
     console.log(dom.byId("priceMax").value);
     if (dom.byId("priceMax").value != "") {
       expression += "price < " + dom.byId("priceMax").value;
-      if (dom.byId("occupantsMin").value != "") {
+      if (dom.byId("occupantsMin").value != "" || dom.byId("bedroomsMin").value != "") {
         expression += " AND ";
       }
     }
     if (dom.byId("occupantsMin").value != "") {
       expression += "occupants > " + dom.byId("occupantsMin").value;
+      if (dom.byId("bedroomsMin").value != "") {
+        expression += " AND ";
+      }
+    }
+    if (dom.byId("bedroomsMin").value != "") {
+      expression += "bedrooms > " + dom.byId("bedroomsMin").value;
     }
     initLayer.setDefinitionExpression(expression);
   })
