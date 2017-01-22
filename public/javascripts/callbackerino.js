@@ -172,7 +172,7 @@ require([
         expression += string + " = 'True' AND ";
       }
     }
-    expression += "price > " + dom.byId("priceMax").value;
+    expression += "price < " + dom.byId("priceMax").value;
     console.log(expression);
     initLayer.setDefinitionExpression(expression);
   })
