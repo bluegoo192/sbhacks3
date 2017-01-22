@@ -38,3 +38,5 @@ var pricePriority = [
     return (target.attributes.price / 350);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
+
+var priceQuery = new UserQuery(lowStandardsQualifier, pricePriority);

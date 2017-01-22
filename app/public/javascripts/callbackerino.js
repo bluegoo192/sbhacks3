@@ -50,10 +50,8 @@ require([
   symbol = new SimpleMarkerSymbol();
   symbol.setColor(new Color([150, 150, 150, 1]));
   symbol.setSize(15);
-  var priceQuery = new UserQuery(lowStandardsQualifier, pricePriority);
-  activeQuery = priceQuery;
   renderer = new ClassBreaksRenderer(symbol, function(target) {
-    return activeQuery.assess(target);
+    return app.activeQuery.assess(target);
   });
 
   var numRanges = 510;
