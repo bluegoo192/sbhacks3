@@ -342,7 +342,7 @@ require([
     var symbol = new SimpleFillSymbol();
     toolbar.deactivate();
     map.enableMapNavigation();
-    dom.byId("circledraw").style.backgroundColor = 'white';
+    app.areaToolLabel = "Area"
     isActive = false;
     var graphic = new Graphic(evt.geometry, symbol);
     if (previousGraphic != null) {
