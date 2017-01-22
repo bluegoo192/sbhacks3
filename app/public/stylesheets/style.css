@@ -53,6 +53,18 @@ html, body, #map {
   border: 1px solid black;
 }
 
+#clearquery {
+  display: block;
+  position: absolute;
+  z-index: 3;
+  top: 70px;
+  left: 300px;
+  padding: 3px;
+  background-color: white;
+  border-radius: 1px;
+  border: 1px solid black;
+}
+
 #sidebar {
   display: block;
   position: absolute;

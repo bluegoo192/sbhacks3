@@ -116,6 +116,10 @@ html
         on(dom.byId("query"), "click", function() {
           testQuery();
         });
+        
+        on(dom.byId("clearquery"), "click", function() {
+          testQuery();
+        });
         //Create extent to limit search
         var extent = new Extent({
            "spatialReference": {
@@ -150,34 +154,7 @@ html
         }
         
         function testQuery() {
-          var queryTask = new QueryTask("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/berkeley/FeatureServer/0");
-          q = new Query();
-          q.returnGeometry = true;
-          q.outFields = ["name", "price"];
-          q.where = "price < 1500";
-          
-          queryTask.execute(q, showResults);
-        }
-
-        function showResults(featureSet) {
-          map.graphics.clear();
-          var layerDefinition = {
-            "geometryType": "esriGeometryPoint",
-            "fields": [
-            {
-              "name": "Name",
-              "type": "esriFieldTypeOID",
-              "alias": "Name"
-            }
-            ]
-          } 
-          var featureCollection = {
-            layerDefinition: layerDefinition,
-            featureSet: featureSet
-          };
-          var featureLayer = new FeatureLayer(featureCollection);
-          featureLayer.setRenderer(renderer);
-          map.addLayer(featureLayer);
+          initLayer.setDefinitionExpression("price < 1500");
         }
         
         function createToolbar(themap) {
