@@ -216,12 +216,12 @@ require([
     if (isActive) {
       toolbar.deactivate();
       map.enableMapNavigation();
-      dom.byId("circledraw").style.backgroundColor = 'white';
+      app.areaToolLabel = "Area";
     } else {
       var tool = "Freehand Polygon".toUpperCase().replace(/ /g, "_");
       toolbar.activate(Draw[tool]);
       map.disableMapNavigation();
-      dom.byId("circledraw").style.backgroundColor = 'red';
+      app.areaToolLabel = "Exit";
     }
     isActive = !isActive;
   }

@@ -100,6 +100,7 @@ html, body, #app, #map {
   text-align: center;
   appearance: none;
   -moz-appearance: none;
+  -webkit-appearance: none;
   background-color: rgb(119, 197, 88);
 } .flex-row:first-child button {
   background-color: rgb(255, 129, 129);

@@ -1,7 +1,8 @@
 var app = new Vue({
   el: '#app',
   data: {
-    queryString: 'price'
+    queryString: 'price',
+    areaToolLabel: 'Area'
   },
   computed: {
     activeQuery: function () {
