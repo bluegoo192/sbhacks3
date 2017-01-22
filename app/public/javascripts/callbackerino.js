@@ -54,13 +54,14 @@ require([
     return app.activeQuery.assess(target);//app is the vue app in vueapp.js
   });
 
-  var numRanges = 510;
+  var numRanges = 255;
   var max = 10;
   var min = 0;
   var breaks = (max - min) / numRanges;
 
   for (var i=0; i<numRanges; i++) {
-   renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, null, new Color([i, 255 - (i - 255), 0, 0.8])));
+   renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15,
+     new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1), new Color([255, 255 - i, 255 - i, 1])));
   }
 
   var q = new Query();
@@ -75,7 +76,7 @@ require([
 
   censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_SELECTION,
-    outFields: ["price", "name"]}
+    outFields: ["price", "deposit"]}
   );
 
   var symbol = new SimpleMarkerSymbol();
@@ -87,7 +88,12 @@ require([
   //To put more stuff into the sidebar
   censusBlockPointsLayer.on("selection-complete", function() {
     dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
-      getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
+      getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Price: $" +
+      getHighestPrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Price: $" +
+      getLowestPrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Average Deposit: $" +
+      getAverageDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Deposit: $" +
+      getHighestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Deposit: $" +
+      getLowestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
 
   initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
@@ -95,7 +101,7 @@ require([
     outFields: ["price", "name", "street", "city", "state", "FID", "deposit", "bedrooms", "bathrooms", "occupants", "userrating"],
     infoTemplate: new PopupTemplate({
       title: "Apartment Details",
-      description: "Name: {name} <br/> Price: ${price} <br/> Address: {street}, {city}, {state} <br/> FID: {FID}"
+      description: "Price: ${price} <br/> Address: {street}, {city}, {state} <br/> Deposit: ${deposit}"
     })
   });
 
@@ -239,5 +245,53 @@ require([
     }
     return (total / num).toFixed(2);
   }
-
+  function getHighestPrice(features) {
+    var max = 0;
+    for (feature of features) {
+      var price = feature.attributes["price"];
+      if (price > max) {
+        max = price;
+      }
+    }
+    return max;
+  }
+  function getLowestPrice(features) {
+    var min = 999999;
+    for (feature of features) {
+      var price = feature.attributes["price"];
+      if (price < min) {
+        min = price;
+      }
+    }
+    return min;
+  }
+  function getAverageDeposit(features) {
+    var num = 0;
+    var total = 0;
+    for (feature of features) {
+      total += feature.attributes["deposit"];
+      num ++;
+    }
+    return (total / num).toFixed(2);
+  }
+  function getHighestDeposit(features) {
+    var max = 0;
+    for (feature of features) {
+      var price = feature.attributes["deposit"];
+      if (price > max) {
+        max = price;
+      }
+    }
+    return max;
+  }
+  function getLowestDeposit(features) {
+    var min = 999999;
+    for (feature of features) {
+      var price = feature.attributes["deposit"];
+      if (price < min) {
+        min = price;
+      }
+    }
+    return min;
+  }
 });
