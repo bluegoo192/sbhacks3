@@ -21,6 +21,16 @@ html, body, #app, #map {
   padding-bottom: 16px;
 }
 
+#splash {
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: white;
+  background-color: rgba(60, 60, 60, 0.8);
+  font-size: 40px;
+  text-align: center;
+}
+
 #inspector {
   right: 32px;
   top: 32px;
