@@ -64,6 +64,7 @@ html, body, #app, #map {
   top: 32px;
   z-index: 5;
   min-width: 17%;
+  max-height: 480px;
 } #inspector > * {
   border: none;
   margin-bottom: 16px;
@@ -121,6 +122,7 @@ html, body, #app, #map {
   color: #fff;
   border: none;
   padding: 8px;
+  font-size: 1.1em;
 } .flex-row > *:first-child {
   margin-right: 8px !important;
 } .flex-row > *:last-child {
@@ -157,19 +159,22 @@ button:hover, select:hover {
   background-color: #fff;
   padding: 8px;
   color: #999;
+  overflow: scroll;
 } #sidebar:empty {
   display: none;
 }
 
 .showmore {
-  background-color: red; /* Green */
+  background-color: rgb(255, 124, 245); /* Green */
   border: none;
+  padding: 8px;
+  border-radius: 4px;
   color: white;
-  margin-top: 5px;
+  margin-top: 8px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 12px;
+  font-size: 1em;
 }
 
 .popupImage {
