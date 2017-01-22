@@ -78,21 +78,28 @@
         "esri/graphic",
         "esri/arcgis/utils",
 
+        "esri/layers/FeatureLayer",
+        "esri/tasks/query", "esri/tasks/QueryTask",
+
         "esri/symbols/SimpleMarkerSymbol",
         "esri/symbols/SimpleLineSymbol",
         "esri/symbols/SimpleFillSymbol",
 
-        "dojo/dom",
+        "esri/Color", "dojo/dom",
         "dojo/parser", "dijit/registry",
 
         "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
         "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
       ], function(
         Map, Draw, Graphic, arcgisUtils,
+        FeatureLayer,
+        Query, QueryTask,
         SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol,
-        dom, parser, registry
+        Color, dom, parser, registry
       ) {
         parser.parse();
+
+        var query = new Query();
 
         registry.byId("undo").on("click", function() {
           if(previousGraphic != null) {
@@ -102,9 +109,26 @@
             }
           });
 
-        arcgisUtils.createMap("6705a235918f4c308722daa1428d7f87", "map").then(function (response) {
+        var censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/test/FeatureServer/0", {
+          mode: FeatureLayer.MODE_SELECTION,
+          outFields: ["price", "name"]}
+        );
+
+        var symbol = new SimpleMarkerSymbol();
+        symbol.style = SimpleMarkerSymbol.STYLE_SQUARE;
+        symbol.setSize(15);
+        symbol.setColor(new Color([0,0,0,0.5]));
+        censusBlockPointsLayer.setSelectionSymbol(symbol);
+
+        censusBlockPointsLayer.on("selection-complete", function() {
+          console.log(censusBlockPointsLayer.getSelectedFeatures());
+        });
+
+
+        arcgisUtils.createMap("974b1e6a1bb740c490e0cff582713305", "map").then(function (response) {
           map = response.map;
           createToolbar(map);
+          map.addLayer(censusBlockPointsLayer);
         });
         // loop through all dijits, connect onClick event
         // listeners for buttons to activate drawing tools
@@ -148,54 +172,10 @@
           }
           previousGraphic = graphic;
           map.graphics.add(graphic);
-          var results = [];
-          dojo.forEach(map.graphics.graphics,function(g){
-            if (evt.geometry.contains(g.geometry)) {
-              g.setSymbol(highlightSymbol);
-              results.push(g.getContent());
-            }
-            //else if point was previously highlighted, reset its symbology
-            else if (g.symbol == highlightSymbol) {
-              g.setSymbol(defaultSymbol);
-            }
-          });
-          console.log(results);
-        }
+          query.geometry = evt.geometry;
+          censusBlockPointsLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW);
 
-//         csv = new CSVLayer("test.csv", {
-//           copyright: "NGNL"
-//         });
-//         var symbol = new SimpleMarkerSymbol();
-//         symbol.setColor(new Color([150, 150, 150, 1]));
-//         symbol.setSize(15);
-//
-//         var renderer = new ClassBreaksRenderer(symbol, "price");
-//
-//         var numRanges = 510;
-//         var max = 3000;
-//         var min = 0;
-//         var breaks = (max - min) / numRanges;
-//
-//         for (var i=0; i<numRanges; i++) {
-//           renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, null, new Color([i, 255 - (i - 255), 0, 0.8])));
-//         }
-//
-//         renderer.addBreak(0, 200, new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15, null, new Color([255, 0, 0,0.5])));
-//         renderer.addBreak(200, 600, new SimpleFillSymbol().setColor(new Color([255, 255, 0,0.5])));
-//         renderer.addBreak(600, 1000, new SimpleFillSymbol().setColor(new Color([0,255,0,0.5])));
-//
-//         csv.setRenderer(renderer);
-//         var template = new PopupTemplate({
-//           title: "{name}",
-//           description: "<p>As of 2015, <b>{price}%</b> of the" +
-// " population in this zip code is married.</p>" +
-// "<ul><li>{price} people are married</li>" +
-// "<li>{price} have never married</li>" +
-// "<li>{price} are divorced</li><ul>"
-//         });
-//
-//         csv.setInfoTemplate(template);
-//         map.addLayer(csv);
+        }
       });
     </script>
   </head>
