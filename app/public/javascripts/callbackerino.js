@@ -1,4 +1,4 @@
-var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, activeQuery;
+var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer;
 var isActive = false;
 
 require([
@@ -51,7 +51,7 @@ require([
   symbol.setColor(new Color([150, 150, 150, 1]));
   symbol.setSize(15);
   renderer = new ClassBreaksRenderer(symbol, function(target) {
-    return app.activeQuery.assess(target);
+    return app.activeQuery.assess(target);//app is the vue app in vueapp.js
   });
 
   var numRanges = 510;
@@ -90,9 +90,9 @@ require([
       getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
 
-  var initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
+  initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
-    outFields: ["price", "name", "street", "city", "state", "FID"],
+    outFields: ["price", "name", "street", "city", "state", "FID", "deposit", "bedrooms", "bathrooms", "occupants", "userrating"],
     infoTemplate: new PopupTemplate({
       title: "Apartment Details",
       description: "Name: {name} <br/> Price: ${price} <br/> Address: {street}, {city}, {state} <br/> FID: {FID}"

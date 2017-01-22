@@ -14,7 +14,10 @@ function UserQuery(qualifier, sortingPriorities) {
     return (criteriaMet >= this.qualifier.required);
   };
   this.assess = function(target) {
-    if (!this.check(target)) return 0;//if the house doesn't meet our criteria, automatically reject
+    if (!this.check(target)) {
+      console.log('failed check');
+      return 0;//if the house doesn't meet our criteria, automatically reject
+    }
     var cumulativeScore = 0;
     for (var i=0; i<this.sortingPriorities.length; i++) {
       cumulativeScore += this.sortingPriorities[i](target);
@@ -40,7 +43,7 @@ var pricePriority = [
 ];
 var depositPriority = [
   function (target) {
-    return (target.attributes.deposit / 400);//any large number will do, we just need the normalizedPrice to be less than 10
+    return (target.attributes.deposit / 50);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
 var bedPriority = [
@@ -60,6 +63,7 @@ var occupancyPriority = [
 ];
 var ratingPriority = [
   function (target) {
+    //onsole.log(target.attributes.userrating);
     return (target.attributes.userrating);//any large number will do, we just need the normalizedPrice to be less than 10
   }
 ];
