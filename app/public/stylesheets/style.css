@@ -3,10 +3,16 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-html, body, #map {
+html, body, #app, #map {
   height: 100%;
   padding: 0;
   margin: 0;
+}
+
+.floating {
+  display: block;
+  position: absolute;
+  z-index: 3;
 }
 
 #search {
@@ -15,6 +21,12 @@ html, body, #map {
   z-index: 3;
   top: 20px;
   left: 75px;
+}
+
+#sort {
+  display: block;
+  position: absolute;
+  z-index: 3;
 }
 
 #undo {
@@ -30,9 +42,6 @@ html, body, #map {
 }
 
 #circledraw {
-  display: block;
-  position: absolute;
-  z-index: 3;
   top: 70px;
   left: 125px;
   padding: 3px;

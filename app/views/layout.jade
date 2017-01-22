@@ -5,12 +5,16 @@ html
     meta(name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no')
     link(rel='stylesheet' href='https://js.arcgis.com/3.19/esri/css/esri.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='https://js.arcgis.com/3.19/')
-    script(src='/javascripts/vue.js')
     
   body
-    block content
+    div#app
+      block content
     
     script(src='/javascripts/queries.js')
+    
+    script(src='/javascripts/vue.js')
+    script(src='/javascripts/vueapp.js')
+    
+    script(src='https://js.arcgis.com/3.19/')
     script(src='/javascripts/callbackerino.js')
       

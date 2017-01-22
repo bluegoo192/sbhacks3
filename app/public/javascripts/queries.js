@@ -24,6 +24,7 @@ function UserQuery(qualifier, sortingPriorities) {
   };
 }
 
+//use this whenever you *don't* want to filter results
 var lowStandardsQualifier = {
   required: 0,
   qualifiers: [
