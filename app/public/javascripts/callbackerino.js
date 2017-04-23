@@ -161,7 +161,6 @@ require([
 
   on(dom.byId("splash"), "click", function() {
     domStyle.set(dom.byId("splash"), "display", "none");
-    domStyle.set(dom.byId("screenblur"), "display", "none");
   })
 
   on(dom.byId("submitQuery"), "click", function() {

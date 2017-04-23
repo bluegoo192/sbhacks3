@@ -1,0 +1,378 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+html, body, #app, #map {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.floating {
+  display: block;
+  position: absolute;
+  z-index: 3;
+} .material {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 6px 48px 0 rgba(0,0,0,0.4);
+  border-radius: 4px;
+} .flex-row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+}
+
+#splash {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  border: none;
+  background-color: rgba(30, 30, 30, 0.7);
+  text-align: center;
+}
+
+#splashImage {
+  width: 200px;
+  height: auto;
+}
+
+#splashContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#splashTitle {
+  font-size: 60px;
+  font-weight: bolder;
+  z-index: 100;
+  color: white;
+  text-align: center;
+}
+
+#splashBody {
+  font-size: 20px;
+  z-index: 100;
+  color: lightgrey;
+  text-align: center;
+}
+
+#inspector {
+  right: 32px;
+  top: 32px;
+  z-index: 5;
+  min-width: 17%;
+  max-height: 480px;
+} #inspector > * {
+  border: none;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+} #inspector * {
+  float: none;
+  box-sizing: border-box;
+}
+
+#search {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 6px 48px 0 rgba(0,0,0,0.4);
+  background-color: #fff;
+} #search * {
+  border-radius: 4px;
+  background-color: #fff;
+} .searchGroup {
+  border: none;
+} .arcgisSearch .searchMenu {
+  border: none;
+  margin-top: 16px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 6px 48px 0 rgba(0,0,0,0.4);
+} #search_input {
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  display: block;
+  width: auto;
+  height: auto;
+  padding: 12px 16px;
+  float: none;
+} .arcgisSearch .searchBtn {
+  display: none;
+} .searchAnimate {
+  display: block;
+} .searchAnimate .searchInputGroup {
+  float: none;
+} .arcgisSearch .searchClear {
+  border-radius: 4px;
+  height: 100%;
+  display: none !important;
+  text-align: center;
+} .searchClear span {
+  display: table-cell;
+  vertical-align: middle;
+  top:0; left:0; bottom:0; right:0;
+  margin: auto;
+}
+
+#palette button, #palette select {
+  flex: 1;
+  margin: 0;
+  flex-basis: 0;
+  color: #fff;
+  border: none;
+  padding: 8px;
+  font-size: 1.1em;
+} .flex-row > *:first-child {
+  margin-right: 8px !important;
+} .flex-row > *:last-child {
+  margin-left: 8px !important;
+} #palette select {
+  text-align: center;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: rgb(119, 197, 88);
+} .flex-row:first-child button {
+  background-color: rgb(255, 129, 129);
+} .flex-row:last-child button:first-child {
+  background-color: rgb(132, 176, 255);
+} .flex-row:last-child button:last-child {
+  background-color: rgb(255, 124, 245);
+}
+button:hover, select:hover {
+ text-decoration: underline;
+}
+
+
+#undo {
+  display: none;
+}
+
+#clearquery {
+  display: none;
+}
+
+#sidebar {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  padding: 8px;
+  color: #999;
+  overflow: scroll;
+} #sidebar:empty {
+  display: none;
+}
+
+.showmore {
+  background-color: rgb(255, 124, 245); /* Green */
+  border: none;
+  padding: 8px;
+  border-radius: 4px;
+  color: white;
+  margin-top: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 1em;
+}
+
+.popupImage {
+  margin: 3px;
+  width: 80%;
+  height: 150px;
+  text-align: center;
+  background-size: cover;
+}
+
+#sidebar h1 {
+  text-align:center
+}
+
+#sidebar p {
+  padding: 5px;
+}
+
+.spotlight {
+  z-index: -1;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%:
+  opacity: 0;
+  box-shadow: inset rgba(0,0,0,0.25) 0px 0px 20px 20px, rgba(0,0,0,0.25) 0px 0px 0px 1000px;
+  transition: all 1000ms;
+} .spotlight-active {
+  z-index: 2;
+  opacity: 1;
+}
+
+a {
+  color: #00B7FF;
+}
+
+html, body, #mainWindow {
+  font-family: sans-serif;
+  height: 100%;
+  width: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+#header {
+  height: 80px;
+  overflow: auto;
+  padding: 0.5em;
+}
+.esriPopup .contentPane {
+  text-align: left;
+  color: white;
+  background-color: rgba(40, 40, 40, 0.7);
+}
+.esriPopup .pointer.top {
+  color: transparent;
+}
+.esriPopup .pointer.bottomLeft {
+  color: transparent;
+}
+.esriPopup .pointer, .esriPopup .outerPointer {
+  height: 0px;
+  width: 0px;
+}
+.esriPopup a {
+    display: none;
+}
+.esriPopup .titlePane {
+  background-color: rgba(20, 20, 20, 0.7);
+  color: white;
+}
+.esriViewPopup .hzLine {
+    border: none;
+}
+.esriPopup .actionsPane {
+  background-color: rgba(40, 40, 40, 0.7);
+}
+.esriPopup {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 50px 0 rgba(0, 0, 0, 0.4);
+}
+
+#map_zoom_slider {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  top: auto;
+  border: none;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.1), 0 6px 48px 0 rgba(0,0,0,0.4);
+} .esriSimpleSliderIncrementButton {
+  border: none;
+}
+
+
+#queryWindow {
+  text-align: center;
+  display: none;
+  position: absolute;
+  z-index: 3;
+  top: 20px;
+  left: 20px;
+  background-color: white;
+  max-width: 400px;
+  width: auto;
+  height: auto;
+  flex-direction: column;
+  overflow: hidden;
+} #toggleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+} #toggleContainer button {
+  font-size: 1em;
+} #queryWindow input {
+  border: none;
+  border-bottom: 1px solid rgb(223, 223, 223);
+  padding-top: 4px;
+} #submitQuery {
+  font-size: 1em;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin: 4px;
+  border: none;
+  background-color: rgb(117, 193, 86);
+}
+
+.disabledButton{
+  filter: brightness(60%);
+}
+
+.toggleButton {
+  outline: none;
+  color: white;
+  border: none;
+  font-size: 8px;
+  width: 100px;
+  height: 50px;
+}
+
+#smoking{
+  background-color: rgba(255, 208, 0, 1)
+}
+
+#pets{
+  background-color: rgba(0, 242, 44, 1)
+}
+
+#water{
+  background-color: rgba(0, 238, 255, 1)
+}
+
+#garbage{
+  background-color: rgba(145, 145, 145, 1)
+}
+
+#gas{
+  background-color: rgba(198, 84, 255, 1)
+}
+
+#electricity{
+  background-color: rgba(214, 214, 0, 1)
+}
+
+#internet{
+  background-color: rgba(84, 147, 255, 1)
+}
+#laundry{
+  background-color: rgba(255, 208, 0, 1)
+}
+
+#subleases{
+  background-color: rgba(0, 242, 44, 1)
+}
+
+#balcony{
+  background-color: rgba(0, 238, 255, 1)
+}
+
+#furnished{
+  background-color: rgba(145, 145, 145, 1)
+}
+
+#insurance{
+  background-color: rgba(198, 84, 255, 1)
+}
+
+#granitecounters{
+  background-color: rgba(214, 214, 0, 1)
+}
+
+#tilefloor{
+  background-color: rgba(84, 147, 255, 1)
+}
+
+#doublepane{
+  background-color: rgba(255, 208, 0, 1)
+}
+
+#hvactype{
+  background-color: rgba(0, 242, 44, 1)
+}

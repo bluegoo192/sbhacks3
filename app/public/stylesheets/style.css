@@ -21,6 +21,11 @@ html, body, #app, #map {
   padding-bottom: 16px;
 }
 
+#priceMax {
+  width:100px;
+  height: 60px;
+}
+
 #splash {
   position: absolute;
   width: 100%;
