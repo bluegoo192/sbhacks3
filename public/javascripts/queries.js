@@ -70,9 +70,11 @@ var ratingPriority = [
   }
 ];
 
-var priceQuery = new UserQuery(lowStandardsQualifier, pricePriority);
-var depositQuery = new UserQuery(lowStandardsQualifier, depositPriority);
-var bedQuery = new UserQuery(lowStandardsQualifier, bedPriority);
-var bathQuery = new UserQuery(lowStandardsQualifier, bathPriority);
-var occupancyQuery = new UserQuery(lowStandardsQualifier, occupancyPriority);
-var ratingQuery = new UserQuery(lowStandardsQualifier, ratingPriority);
+var queries = {
+    price: new UserQuery(lowStandardsQualifier, pricePriority),
+    deposit: new UserQuery(lowStandardsQualifier, depositPriority),
+    bedrooms: new UserQuery(lowStandardsQualifier, bedPriority),
+    bathrooms: new UserQuery(lowStandardsQualifier, bathPriority),
+    maxoccupants: new UserQuery(lowStandardsQualifier, occupancyPriority),
+    rating: new UserQuery(lowStandardsQualifier, ratingPriority)
+}
