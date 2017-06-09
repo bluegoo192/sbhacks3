@@ -1,4 +1,4 @@
-var map, toolbar, renderer, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer, randomImage, showMore, data;
+var map, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer, randomImage, showMore, data;
 var isActive = false;
 var queriesShown = false;
 
@@ -43,12 +43,13 @@ var mapProcessor = function(
   screenUtils,
   Color, dom, on, domClass, domStyle, domConstruct, query, parser, registry
 ) {
+
   parser.parse();
 
   symbol = new SimpleMarkerSymbol();
   symbol.setColor(new Color([150, 150, 150, 1]));
   symbol.setSize(15);
-  renderer = new ClassBreaksRenderer(symbol, function(target) {
+  globals.renderer = new ClassBreaksRenderer(symbol, function(target) {
     return app.activeQuery.assess(target);//app is the vue app in vueapp.js
   });
 
@@ -58,7 +59,7 @@ var mapProcessor = function(
   var breaks = (max - min) / numRanges;
 
   for (var i=0; i<numRanges; i++) {
-   renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15,
+   globals.renderer.addBreak(parseFloat(min + (i*breaks)), parseFloat(min + ((i+1)*breaks)), new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 15,
      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 255, 255, 1]), 1), new Color([255, 255 - i, 255 - i, 1])));
   }
 
@@ -107,7 +108,7 @@ var mapProcessor = function(
     })
   });
 
-  initLayer.setRenderer(renderer);
+  initLayer.setRenderer(globals.renderer);
 
   arcgisUtils.createMap("c0039c4561bc4829983698261edb5622", "map").then(function (response) {
     map = response.map;
@@ -201,12 +202,12 @@ var mapProcessor = function(
 
   function activateTool() {
     if (isActive) {
-      toolbar.deactivate();
+      globals.toolbar.deactivate();
       map.enableMapNavigation();
       app.areaToolLabel = "Area";
     } else {
       var tool = "Freehand Polygon".toUpperCase().replace(/ /g, "_");
-      toolbar.activate(Draw[tool]);
+      globals.toolbar.activate(Draw[tool]);
       map.disableMapNavigation();
       app.areaToolLabel = "Exit";
     }
@@ -245,9 +246,6 @@ var mapProcessor = function(
       urlmap["Cochrane Property Management Inc."] = "http://www.cochranepm.com/";
       if (typeof urlmap[realtor] === 'undefined' || urlmap[realtor] === null) return "http://www.google.com";
       return urlmap[realtor];
-  }
-  var realtorURLMap = {
-
   }
 
   showMore = function(value, key, d) {
@@ -316,8 +314,8 @@ var mapProcessor = function(
   }
 
   function createToolbar(themap) {
-    toolbar = new Draw(map);
-    toolbar.on("draw-end", addToMap);
+    globals.toolbar = new Draw(map);
+    globals.toolbar.on("draw-end", addToMap);
   }
 
   function showLocation(e) {
@@ -370,7 +368,7 @@ var mapProcessor = function(
 
   function addToMap(evt) {
     var symbol = new SimpleFillSymbol();
-    toolbar.deactivate();
+    globals.toolbar.deactivate();
     map.enableMapNavigation();
     app.areaToolLabel = "Area"
     isActive = false;
