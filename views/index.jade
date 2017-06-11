@@ -10,7 +10,7 @@ block content
     div#search.material
     #palette
       .flex-row
-        select.material#sort(v-model="queryString")
+        select.material#sort(v-model="queryString" @change="resetSort()")
           option(value="price") Price
           option(value="deposit") Deposit
           option(value="bedrooms") Bedrooms

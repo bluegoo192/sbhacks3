@@ -4,6 +4,11 @@ var app = new Vue({
     queryString: 'price',
     areaToolLabel: 'Area'
   },
+  methods: {
+    resetSort: function () {
+      globals.initLayer.setDefinitionExpression("");
+    }
+  },
   computed: {
     activeQuery: function () {
       return queries[this.queryString];

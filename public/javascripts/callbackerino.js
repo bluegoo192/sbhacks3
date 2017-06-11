@@ -64,11 +64,7 @@ var mapProcessor = function(
   }
 
   var q = new Query();
-
-  on(dom.byId("sort"), "change", function() {
-    globals.initLayer.setDefinitionExpression("");
-  });
-
+  
   censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_SELECTION,
     outFields: ["price", "deposit"]}
