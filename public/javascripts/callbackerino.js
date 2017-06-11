@@ -1,4 +1,4 @@
-var map, symbol, geomTask, previousGraphic, censusBlockPointsLayer, initLayer, randomImage, showMore, data;
+var map, symbol, geomTask, previousGraphic, censusBlockPointsLayer, randomImage, showMore, data;
 var isActive = false;
 var queriesShown = false;
 
@@ -66,7 +66,7 @@ var mapProcessor = function(
   var q = new Query();
 
   on(dom.byId("sort"), "change", function() {
-    initLayer.setDefinitionExpression("");
+    globals.initLayer.setDefinitionExpression("");
   });
 
   censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
@@ -91,7 +91,7 @@ var mapProcessor = function(
       getLowestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
   });
 
-  initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
+  globals.initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
     mode: FeatureLayer.MODE_ONDEMAND,
     outFields: ["price", "name", "street", "city", "state", "FID", "deposit", "bedrooms", "bathrooms",
       "occupants", "userrating", "realtor", "smoking", "pets", "utilitycoverage", "water", "garbage",
@@ -108,14 +108,14 @@ var mapProcessor = function(
     })
   });
 
-  initLayer.setRenderer(globals.renderer);
+  globals.initLayer.setRenderer(globals.renderer);
 
   arcgisUtils.createMap("c0039c4561bc4829983698261edb5622", "map").then(function (response) {
     map = response.map;
     createToolbar(map);
     enableSpotlight();
     map.addLayer(censusBlockPointsLayer);
-    map.addLayer(initLayer);
+    map.addLayer(globals.initLayer);
   });
 
   var search = new Search({
@@ -169,7 +169,7 @@ var mapProcessor = function(
     if (dom.byId("bedroomsMin").value != "") {
       expression += "bedrooms > " + dom.byId("bedroomsMin").value;
     }
-    initLayer.setDefinitionExpression(expression);
+    globals.initLayer.setDefinitionExpression(expression);
   })
   //Create extent to limit search
   var extent = new Extent({
