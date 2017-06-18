@@ -410,7 +410,7 @@ var mapProcessor = function(
   }
 }
 
-require([
+var esriRequirements = [
   "esri/map",
   "esri/dijit/Popup",
   "esri/dijit/PopupTemplate",
@@ -437,4 +437,6 @@ require([
 
   "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
   "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
-], mapProcessor);
+]
+
+require(esriRequirements, mapProcessor);
