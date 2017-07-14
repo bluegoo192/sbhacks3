@@ -410,33 +410,4 @@ var mapProcessor = function(
   }
 }
 
-var esriRequirements = [
-  "esri/map",
-  "esri/dijit/Popup",
-  "esri/dijit/PopupTemplate",
-  "esri/dijit/Search",
-  "esri/geometry/Extent",
-  "esri/toolbars/draw",
-  "esri/graphic",
-  "esri/arcgis/utils",
-  "esri/renderers/ClassBreaksRenderer",
-
-  "esri/layers/FeatureLayer",
-  "esri/InfoTemplate",
-  "esri/tasks/query", "esri/tasks/QueryTask",
-
-  "esri/symbols/SimpleMarkerSymbol",
-  "esri/symbols/SimpleLineSymbol",
-  "esri/symbols/SimpleFillSymbol",
-  "esri/geometry/screenUtils",
-
-  "esri/Color", "dojo/dom", "dojo/on",
-  "dojo/dom-class", "dojo/dom-style",
-  "dojo/dom-construct", "dojo/query",
-  "dojo/parser", "dijit/registry",
-
-  "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
-  "dijit/form/Button", "dijit/WidgetSet", "dojo/domReady!"
-]
-
-require(esriRequirements, mapProcessor);
+require(globals.esriRequirements, mapProcessor);

@@ -13,5 +13,8 @@ var app = new Vue({
     activeQuery: function () {
       return queries[this.queryString];
     }
+  },
+  mounted: function () {
+    console.log("mounted");
   }
 })
