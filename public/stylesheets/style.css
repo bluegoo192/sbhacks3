@@ -270,7 +270,6 @@ html, body {
 
 #queryWindow {
   text-align: center;
-  display: none;
   position: absolute;
   z-index: 3;
   top: 20px;

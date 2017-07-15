@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  #splash
+  #splash(@click="showSplash = false" v-if="showSplash")
     #splashContainer
       img#splashImage(src='/images/logo4.svg')
       #splashTitle Apt-Get
@@ -19,10 +19,10 @@ block content
           option(value="rating") Rating
         button#circledraw.material {{ areaToolLabel }}
       .flex-row
-        button#query.material Criteria
+        button#query.material(@click="showQueries = !showQueries") Criteria
         button.material More
     #sidebar.material
-  #queryWindow.material
+  #queryWindow.material(v-if="showQueries")
     #toggleContainer
       button#smoking.toggleButton.disabledButton Smoking
       button#pets.toggleButton.disabledButton Pets

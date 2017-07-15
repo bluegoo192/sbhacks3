@@ -2,7 +2,9 @@ var app = new Vue({
   el: '#app',
   data: {
     queryString: 'price',
-    areaToolLabel: 'Area'
+    areaToolLabel: 'Area',
+    showSplash: true,
+    showQueries: false
   },
   methods: {
     resetSort: function () {
@@ -96,18 +98,9 @@ var app = new Vue({
           activateTool();
         });
 
-        on(dom.byId("query"), "click", function() {
-          showQueries();
-        });
-
         for (string of toggles) {
           attachListeners(dom.byId(string));
         }
-
-        on(dom.byId("splash"), "click", function() {
-          domStyle.set(dom.byId("splash"), "display", "none");
-          domStyle.set(dom.byId("screenblur"), "display", "none");
-        })
 
         on(dom.byId("submitQuery"), "click", function() {
           var expression = "";
@@ -243,16 +236,6 @@ var app = new Vue({
               "Double Pane: " + doublepane + "<br/>"
           };
           return returnFunction;
-        }
-
-        function showQueries() {
-          if (queriesShown) {
-            domStyle.set(dom.byId('queryWindow'), "display", "none");
-            queriesShown = false;
-          } else {
-            domStyle.set(dom.byId('queryWindow'), "display", "block");
-            queriesShown = true;
-          }
         }
 
         function createToolbar(themap) {
