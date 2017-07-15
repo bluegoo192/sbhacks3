@@ -22,7 +22,7 @@ block content
         button#query.material(@click="showQueries = !showQueries") Criteria
         button.material More
     #sidebar.material
-  #queryWindow.material(v-if="showQueries")
+  #queryWindow.material(v-show="showQueries")
     #toggleContainer
       button#smoking.toggleButton.disabledButton Smoking
       button#pets.toggleButton.disabledButton Pets
