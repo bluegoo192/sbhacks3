@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  #inputWindow
+    h1 Add Apartment
+    h3 Literally the most beautiful form you will ever see
+    form(action='/addApartment' method='post')
+      input(type='text', placeholder='Apartment Name', name='apartmentName')
+      br
+      input(type='text', placeholder='Apartment Address', name='apartmentAddress')
+      br
+      input(type='text', placeholder='Landlord Name', name='landlordName')
+      br
+      input(type='text', placeholder='Landlord Company', name='landlordCompany')
+      br
+      input(type='text', placeholder='Email (for prospective tenants)', name='email')
+      br
+      p Attach images of apartment (Use CTRL-click to select multiple files, name='images')
+      br
+      input(type='file' accept='image/*' multiple)
+      br
+      input(type='submit', value='Submit')
