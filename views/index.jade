@@ -40,11 +40,11 @@ block content
       button#tilefloor.toggleButton.disabledButton(@click="toggleCriteria('tilefloor')") Tile Floors
       button#doublepane.toggleButton.disabledButton(@click="toggleCriteria('doublepane')") Double Pane
       button#hvactype.toggleButton.disabledButton(@click="toggleCriteria('hvactype')") HVAC Electric
-    input#priceMax(type='number', placeholder='Price less than', v-model='maxPrice')
+    input#priceMax(type='number', placeholder='Price less than', v-model='query.maxPrice')
     br
-    input#occupantsMin(type='number', placeholder='Occupants greater than', v-model='minOccupancy')
+    input#occupantsMin(type='number', placeholder='Occupants greater than', v-model='query.minOccupancy')
     br
-    input#bedroomsMin(type='number', placeholder='Bedrooms greater than', v-model='minBedrooms')
+    input#bedroomsMin(type='number', placeholder='Bedrooms greater than', v-model='query.minBedrooms')
     br
     button#submitQuery Submit
 

@@ -5,23 +5,25 @@ var app = new Vue({
     areaToolLabel: 'Area',
     showSplash: true,
     showQueries: false,
-    criteria: [],
-    maxPrice: null,
-    minOccupancy: null,
-    minBedrooms: null
+    query: {
+      criteria: [],
+      maxPrice: null,
+      minOccupancy: null,
+      minBedrooms: null
+    }
   },
   methods: {
     resetSort: function () {
       globals.initLayer.setDefinitionExpression("");
     },
     toggleCriteria: function (item) {
-      var index = this.criteria.indexOf(item);
+      var index = this.query.criteria.indexOf(item);
       if (index === -1) {//if its not in the array
-        this.criteria.push(item);//add it
+        this.query.criteria.push(item);//add it
       } else {//if its in the array
-        this.criteria.splice(index, 1);//remove it
+        this.query.criteria.splice(index, 1);//remove it
       }
-      console.log(this.criteria);
+      console.log(this.query.criteria);
     },
     submitCriteria: function () {
 
