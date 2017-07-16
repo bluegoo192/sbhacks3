@@ -24,22 +24,22 @@ block content
     #sidebar.material
   #queryWindow.material(v-show="showQueries")
     #toggleContainer
-      button#smoking.toggleButton.disabledButton Smoking
-      button#pets.toggleButton.disabledButton Pets
-      button#water.toggleButton.disabledButton Water
-      button#garbage.toggleButton.disabledButton Garbage
-      button#gas.toggleButton.disabledButton Gas
-      button#electricity.toggleButton.disabledButton Electricity
-      button#internet.toggleButton.disabledButton Internet
-      button#laundry.toggleButton.disabledButton Laundry
-      button#subleases.toggleButton.disabledButton Subleases
-      button#balcony.toggleButton.disabledButton Balcony
-      button#furnished.toggleButton.disabledButton Furnished
-      button#insurance.toggleButton.disabledButton Insurance
-      button#granitecounters.toggleButton.disabledButton Granite Counters
-      button#tilefloor.toggleButton.disabledButton Tile Floors
-      button#doublepane.toggleButton.disabledButton Double Pane
-      button#hvactype.toggleButton.disabledButton HVAC Electric
+      button#smoking.toggleButton.disabledButton(@click="toggleCriteria('smoking')") Smoking
+      button#pets.toggleButton.disabledButton(@click="toggleCriteria('pets')") Pets
+      button#water.toggleButton.disabledButton(@click="toggleCriteria('water')") Water
+      button#garbage.toggleButton.disabledButton(@click="toggleCriteria('garbage')") Garbage
+      button#gas.toggleButton.disabledButton(@click="toggleCriteria('gas')") Gas
+      button#electricity.toggleButton.disabledButton(@click="toggleCriteria('electricity')") Electricity
+      button#internet.toggleButton.disabledButton(@click="toggleCriteria('internet')") Internet
+      button#laundry.toggleButton.disabledButton(@click="toggleCriteria('laundry')") Laundry
+      button#subleases.toggleButton.disabledButton(@click="toggleCriteria('subleases')") Subleases
+      button#balcony.toggleButton.disabledButton(@click="toggleCriteria('balcony')") Balcony
+      button#furnished.toggleButton.disabledButton(@click="toggleCriteria('furnished')") Furnished
+      button#insurance.toggleButton.disabledButton(@click="toggleCriteria('insurance')") Insurance
+      button#granitecounters.toggleButton.disabledButton(@click="toggleCriteria('granitecounters')") Granite Counters
+      button#tilefloor.toggleButton.disabledButton(@click="toggleCriteria('tilefloor')") Tile Floors
+      button#doublepane.toggleButton.disabledButton(@click="toggleCriteria('doublepane')") Double Pane
+      button#hvactype.toggleButton.disabledButton(@click="toggleCriteria('hvactype')") HVAC Electric
     input#priceMax(type='text', placeholder='Price less than')
     br
     input#occupantsMin(type='text', placeholder='Occupants greater than')

@@ -4,11 +4,21 @@ var app = new Vue({
     queryString: 'price',
     areaToolLabel: 'Area',
     showSplash: true,
-    showQueries: false
+    showQueries: false,
+    criteria: []
   },
   methods: {
     resetSort: function () {
       globals.initLayer.setDefinitionExpression("");
+    },
+    toggleCriteria: function (item) {
+      var index = this.criteria.indexOf(item);
+      if (index === -1) {//if its not in the array
+        this.criteria.push(item);//add it
+      } else {//if its in the array
+        this.criteria.splice(index, 1);//remove it
+      }
+      console.log(this.criteria);
     },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
