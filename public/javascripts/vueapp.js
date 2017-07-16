@@ -23,10 +23,31 @@ var app = new Vue({
       } else {//if its in the array
         this.query.criteria.splice(index, 1);//remove it
       }
-      console.log(this.query.criteria);
     },
     submitCriteria: function () {
-
+      var expression = "";
+      var separator = "";
+      for (const item of this.query.criteria) {
+        if (item != "hvactype") {
+          expression += separator + item + " = 'True'";
+        } else {
+          expression += separator + item + " = 'Electric'";
+        }
+        separator = " AND ";
+      }
+      if (this.query.maxPrice !== null && this.query.maxPrice !== "") {
+        expression += separator + "price < " + this.query.maxPrice;
+        separator = " AND ";
+      }
+      if (this.query.minOccupancy !== null && this.query.minOccupancy !== "") {
+        expression += separator + "occupants > " + this.query.minOccupancy;
+        separator = " AND ";
+      }
+      if (this.query.minBedrooms !== null && this.query.minBedrooms !== "") {
+        expression += separator + "bedrooms > " + this.query.minBedrooms;
+        separator = " AND ";
+      }
+      globals.initLayer.setDefinitionExpression(expression);
     },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
@@ -120,38 +141,6 @@ var app = new Vue({
           attachListeners(dom.byId(string));
         }
 
-        on(dom.byId("submitQuery"), "click", function() {
-          var expression = "";
-          for (string of toggles) {
-            if (domClass.contains(dom.byId(string), "disabledButton")) {
-            } else {
-              if (string != "hvactype") {
-                expression += string + " = 'True' AND ";
-              } else {
-                expression += string + " = 'Electric' AND ";
-              }
-            }
-          }
-          if (dom.byId("priceMax").value == "" && dom.byId("occupantsMin").value == "" && dom.byId("bedroomsMin").value == "") {
-            expression += "price > -1";
-          }
-          if (dom.byId("priceMax").value != "") {
-            expression += "price < " + dom.byId("priceMax").value;
-            if (dom.byId("occupantsMin").value != "" || dom.byId("bedroomsMin").value != "") {
-              expression += " AND ";
-            }
-          }
-          if (dom.byId("occupantsMin").value != "") {
-            expression += "occupants > " + dom.byId("occupantsMin").value;
-            if (dom.byId("bedroomsMin").value != "") {
-              expression += " AND ";
-            }
-          }
-          if (dom.byId("bedroomsMin").value != "") {
-            expression += "bedrooms > " + dom.byId("bedroomsMin").value;
-          }
-          globals.initLayer.setDefinitionExpression(expression);
-        })
         //Create extent to limit search
         var extent = new Extent({
            "spatialReference": {

@@ -46,6 +46,6 @@ block content
     br
     input#bedroomsMin(type='number', placeholder='Bedrooms greater than', v-model='query.minBedrooms')
     br
-    button#submitQuery Submit
+    button#submitQuery(@click="submitCriteria") Submit
 
   #map(data-dojo-type='dijit/layout/ContentPane', data-dojo-props="region:'center'")
