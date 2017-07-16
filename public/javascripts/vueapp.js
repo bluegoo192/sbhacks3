@@ -5,7 +5,10 @@ var app = new Vue({
     areaToolLabel: 'Area',
     showSplash: true,
     showQueries: false,
-    criteria: []
+    criteria: [],
+    maxPrice: null,
+    minOccupancy: null,
+    minBedrooms: null
   },
   methods: {
     resetSort: function () {
@@ -19,6 +22,9 @@ var app = new Vue({
         this.criteria.splice(index, 1);//remove it
       }
       console.log(this.criteria);
+    },
+    submitCriteria: function () {
+
     },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
