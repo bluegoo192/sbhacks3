@@ -64,6 +64,35 @@ var app = new Vue({
       }
       isActive = !isActive;
     },
+    getFeaturesAvg: function (features, attribute) {//attribute is a string
+      var num = 0;
+      var total = 0;
+      for (feature of features) {
+        total += feature.attributes[attribute];
+        num ++;
+      }
+      return (total / num).toFixed(2);
+    },
+    getFeaturesHigh: function (features, attribute) {
+      var max = 0;
+      for (feature of features) {
+        var price = feature.attributes[attribute];
+        if (price > max) {
+          max = price;
+        }
+      }
+      return max;
+    },
+    getFeaturesLow: function (features, attribute) {
+      var min = 999999;
+      for (feature of features) {
+        var price = feature.attributes[attribute];
+        if (price < min) {
+          min = price;
+        }
+      }
+      return min;
+    },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
         ClassBreaksRenderer,
@@ -109,12 +138,12 @@ var app = new Vue({
         //To put more stuff into the sidebar
         censusBlockPointsLayer.on("selection-complete", function() {
           dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
-            getAveragePrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Price: $" +
-            getHighestPrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Price: $" +
-            getLowestPrice(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Average Deposit: $" +
-            getAverageDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Highest Deposit: $" +
-            getHighestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "<br/> Lowest Deposit: $" +
-            getLowestDeposit(censusBlockPointsLayer.getSelectedFeatures()) + "</p>";
+            app.getFeaturesAvg(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Highest Price: $" +
+            app.getFeaturesHigh(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Lowest Price: $" +
+            app.getFeaturesLow(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Average Deposit: $" +
+            app.getFeaturesAvg(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Highest Deposit: $" +
+            app.getFeaturesHigh(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Lowest Deposit: $" +
+            app.getFeaturesLow(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "</p>";
         });
 
         globals.initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
@@ -311,64 +340,6 @@ var app = new Vue({
           censusBlockPointsLayer.selectFeatures(q, FeatureLayer.SELECTION_NEW);
         }
 
-        function getAveragePrice(features) {
-          var num = 0;
-          var total = 0;
-          for (feature of features) {
-            total += feature.attributes["price"];
-            num ++;
-          }
-          return (total / num).toFixed(2);
-        }
-        function getHighestPrice(features) {
-          var max = 0;
-          for (feature of features) {
-            var price = feature.attributes["price"];
-            if (price > max) {
-              max = price;
-            }
-          }
-          return max;
-        }
-        function getLowestPrice(features) {
-          var min = 999999;
-          for (feature of features) {
-            var price = feature.attributes["price"];
-            if (price < min) {
-              min = price;
-            }
-          }
-          return min;
-        }
-        function getAverageDeposit(features) {
-          var num = 0;
-          var total = 0;
-          for (feature of features) {
-            total += feature.attributes["deposit"];
-            num ++;
-          }
-          return (total / num).toFixed(2);
-        }
-        function getHighestDeposit(features) {
-          var max = 0;
-          for (feature of features) {
-            var price = feature.attributes["deposit"];
-            if (price > max) {
-              max = price;
-            }
-          }
-          return max;
-        }
-        function getLowestDeposit(features) {
-          var min = 999999;
-          for (feature of features) {
-            var price = feature.attributes["deposit"];
-            if (price < min) {
-              min = price;
-            }
-          }
-          return min;
-        }
         this.ready = true;
     }
   },
