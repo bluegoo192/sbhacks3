@@ -4,13 +4,15 @@ var app = new Vue({
     queryString: 'price',
     areaToolLabel: 'Area',
     showSplash: true,
+    ready: false,
     showQueries: false,
     query: {
       criteria: [],
       maxPrice: null,
       minOccupancy: null,
       minBedrooms: null
-    }
+    },
+    arcgis: {}
   },
   methods: {
     resetSort: function () {
@@ -372,8 +374,8 @@ var app = new Vue({
           }
           return min;
         }
+        this.ready = true;
     }
-
   },
   computed: {
     activeQuery: function () {

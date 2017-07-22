@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  #splash(@click="showSplash = false" v-if="showSplash")
+  #splash(@click="if (ready) showSplash = false" v-if="showSplash")
     #splashContainer
       img#splashImage(src='/images/logo4.svg')
       #splashTitle Apt-Get
