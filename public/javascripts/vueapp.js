@@ -51,6 +51,19 @@ var app = new Vue({
       }
       globals.initLayer.setDefinitionExpression(expression);
     },
+    activateTool: function () {
+      if (isActive) {
+        globals.toolbar.deactivate();
+        map.enableMapNavigation();
+        this.areaToolLabel = "Area";
+      } else {
+        var tool = "Freehand Polygon".toUpperCase().replace(/ /g, "_");
+        globals.toolbar.activate(this.arcgis.Draw[tool]);
+        map.disableMapNavigation();
+        this.areaToolLabel = "Exit";
+      }
+      isActive = !isActive;
+    },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
         ClassBreaksRenderer,
@@ -60,7 +73,7 @@ var app = new Vue({
         screenUtils,
         Color, dom, on, domClass, domStyle, domConstruct, query, parser, registry
       ) {
-
+        this.arcgis.Draw = Draw;
         parser.parse();
 
         symbol = new SimpleMarkerSymbol();
@@ -135,10 +148,6 @@ var app = new Vue({
            map: map
         }, dom.byId("search"));
 
-        on(dom.byId("circledraw"), "click", function() {
-          activateTool();
-        });
-
         for (string of toggles) {
           attachListeners(dom.byId(string));
         }
@@ -170,20 +179,6 @@ var app = new Vue({
               domClass.add(node, "disabledButton");
             }
           });
-        }
-
-        function activateTool() {
-          if (isActive) {
-            globals.toolbar.deactivate();
-            map.enableMapNavigation();
-            app.areaToolLabel = "Area";
-          } else {
-            var tool = "Freehand Polygon".toUpperCase().replace(/ /g, "_");
-            globals.toolbar.activate(Draw[tool]);
-            map.disableMapNavigation();
-            app.areaToolLabel = "Exit";
-          }
-          isActive = !isActive;
         }
 
         randomImage = function(value, key, data) {

@@ -17,7 +17,7 @@ block content
           option(value="bathrooms") Bathrooms
           option(value="maxoccupants") Occupancy
           option(value="rating") Rating
-        button#circledraw.material {{ areaToolLabel }}
+        button#circledraw.material(@click="activateTool") {{ areaToolLabel }}
       .flex-row
         button#query.material(@click="showQueries = !showQueries") Criteria
         button.material More
