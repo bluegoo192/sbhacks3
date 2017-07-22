@@ -124,7 +124,7 @@ var app = new Vue({
 
         var q = new Query();
 
-        censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
+        this.arcgis.censusBlockPointsLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
           mode: FeatureLayer.MODE_SELECTION,
           outFields: ["price", "deposit"]}
         );
@@ -133,17 +133,17 @@ var app = new Vue({
         symbol.style = SimpleMarkerSymbol.STYLE_SQUARE;
         symbol.setSize(15);
         symbol.setColor(new Color([0,0,0,0.5]));
-        censusBlockPointsLayer.setSelectionSymbol(symbol);
+        this.arcgis.censusBlockPointsLayer.setSelectionSymbol(symbol);
 
         //To put more stuff into the sidebar
-        censusBlockPointsLayer.on("selection-complete", function() {
+        this.arcgis.censusBlockPointsLayer.on("selection-complete", function() {
           dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
-            app.getFeaturesAvg(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Highest Price: $" +
-            app.getFeaturesHigh(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Lowest Price: $" +
-            app.getFeaturesLow(censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Average Deposit: $" +
-            app.getFeaturesAvg(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Highest Deposit: $" +
-            app.getFeaturesHigh(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Lowest Deposit: $" +
-            app.getFeaturesLow(censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "</p>";
+            app.getFeaturesAvg(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Highest Price: $" +
+            app.getFeaturesHigh(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Lowest Price: $" +
+            app.getFeaturesLow(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Average Deposit: $" +
+            app.getFeaturesAvg(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Highest Deposit: $" +
+            app.getFeaturesHigh(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Lowest Deposit: $" +
+            app.getFeaturesLow(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "</p>";
         });
 
         globals.initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
@@ -169,7 +169,7 @@ var app = new Vue({
           map = response.map;
           createToolbar(map);
           enableSpotlight();
-          map.addLayer(censusBlockPointsLayer);
+          map.addLayer(app.arcgis.censusBlockPointsLayer);
           map.addLayer(globals.initLayer);
         });
 
@@ -337,7 +337,7 @@ var app = new Vue({
           previousGraphic = graphic;
           map.graphics.add(graphic);
           q.geometry = evt.geometry;
-          censusBlockPointsLayer.selectFeatures(q, FeatureLayer.SELECTION_NEW);
+          app.arcgis.censusBlockPointsLayer.selectFeatures(q, FeatureLayer.SELECTION_NEW);
         }
 
         this.ready = true;
