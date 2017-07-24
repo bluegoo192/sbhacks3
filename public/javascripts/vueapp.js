@@ -73,25 +73,15 @@ var app = new Vue({
       }
       return (total / num).toFixed(2);
     },
-    getFeaturesHigh: function (features, attribute) {
-      var max = 0;
+    getFeaturesExtrema: function (features, attribute, high) {
+      var extrema = (high ? 0 : 999999);
       for (feature of features) {
-        var price = feature.attributes[attribute];
-        if (price > max) {
-          max = price;
+        var attr = feature.attributes[attribute];
+        if ((attr > extrema && high) || (attr < extrema && !high)) {
+          extrema = attr;
         }
       }
-      return max;
-    },
-    getFeaturesLow: function (features, attribute) {
-      var min = 999999;
-      for (feature of features) {
-        var price = feature.attributes[attribute];
-        if (price < min) {
-          min = price;
-        }
-      }
-      return min;
+      return extrema;
     },
     mapProcessor: function(
         Map, Popup, PopupTemplate, Search, Extent, Draw, Graphic, arcgisUtils,
@@ -102,6 +92,7 @@ var app = new Vue({
         screenUtils,
         Color, dom, on, domClass, domStyle, domConstruct, query, parser, registry
       ) {
+
         this.arcgis.Draw = Draw;
         parser.parse();
 
@@ -139,11 +130,11 @@ var app = new Vue({
         this.arcgis.censusBlockPointsLayer.on("selection-complete", function() {
           dom.byId("sidebar").innerHTML = "<p> Average Price: $" +
             app.getFeaturesAvg(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Highest Price: $" +
-            app.getFeaturesHigh(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Lowest Price: $" +
-            app.getFeaturesLow(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price") + "<br/> Average Deposit: $" +
+            app.getFeaturesExtrema(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price", true) + "<br/> Lowest Price: $" +
+            app.getFeaturesExtrema(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "price", false) + "<br/> Average Deposit: $" +
             app.getFeaturesAvg(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Highest Deposit: $" +
-            app.getFeaturesHigh(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "<br/> Lowest Deposit: $" +
-            app.getFeaturesLow(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit") + "</p>";
+            app.getFeaturesExtrema(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit", true) + "<br/> Lowest Deposit: $" +
+            app.getFeaturesExtrema(app.arcgis.censusBlockPointsLayer.getSelectedFeatures(), "deposit", false) + "</p>";
         });
 
         globals.initLayer = new FeatureLayer("http://services7.arcgis.com/YEYZskqaPfGot5jV/arcgis/rest/services/islavista/FeatureServer/0", {
